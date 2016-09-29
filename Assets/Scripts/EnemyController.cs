@@ -5,6 +5,7 @@ public class EnemyController : MonoBehaviour {
 
 	public float reloadTime;
 	public GameObject bullet;
+	public GameObject player;
 	public float bulletSpeed;
 	public float HP;
 
@@ -39,13 +40,23 @@ public class EnemyController : MonoBehaviour {
 		//Has the turrets been reloaded now? If yes -> shoot
 		if (readyToShoot)
 		{
-			//LeftTurret
+			//TODO: enemies shoot one bullet towards the player
+
+			/*//LeftTurret
 			GameObject newBullet1 = Instantiate(bullet);
 			SetupBullet(newBullet1, "LeftTurret");
 
 			//RightTurret
 			GameObject newBullet2 = Instantiate(bullet);
-			SetupBullet(newBullet2, "RightTurret");
+			SetupBullet(newBullet2, "RightTurret");*/
+
+			Vector2 player_position = new Vector2(player.transform.position.x, player.transform.position.y);
+			Vector2 own_position = new Vector2(transform.position.x, transform.position.y);
+
+			Vector2 x_axel = new Vector2(1, 0);
+			Vector2 direction_to_player = new Vector2(player_position.x - own_position.x, player_position.y - own_position.y);
+
+			float angle = Mathf.Acos(Vector2.Dot(x_axel, direction_to_player) / (x_axel.magnitude * direction_to_player.magnitude));
 
 			readyToShoot = false;
 		}
