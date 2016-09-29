@@ -35,19 +35,26 @@ public class PlayerController : MonoBehaviour {
 
 		//Movement: up, down, right and left. Shoow when moving
 		if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)){
-			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, speed);
+
+			//Play area: x: -23 to +23 and y: -10 to +10
+
+			if (transform.position.y <= 10)
+				GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, speed);
 			Shoot();
 		}
 		else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)){
-			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, -speed);
+			if (transform.position.y >= -10)
+				GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, -speed);
 			Shoot();
 		}
 		if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
-			GetComponent<Rigidbody2D>().velocity = new Vector2(speed, GetComponent<Rigidbody2D>().velocity.y);
+			if (transform.position.x <= 23)
+				GetComponent<Rigidbody2D>().velocity = new Vector2(speed, GetComponent<Rigidbody2D>().velocity.y);
 			Shoot();
 		}
 		else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)){
-			GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, GetComponent<Rigidbody2D>().velocity.y);
+			if (transform.position.x >= -23)
+				GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, GetComponent<Rigidbody2D>().velocity.y);
 			Shoot();
 		}
 
