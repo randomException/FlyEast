@@ -5,7 +5,6 @@ public class EnemyController : MonoBehaviour {
 
 	public float reloadTime;
 	public GameObject bullet;
-	public GameObject player;
 	public float bulletSpeed;
 	public float HP;
 
@@ -40,38 +39,28 @@ public class EnemyController : MonoBehaviour {
 		//Has the turrets been reloaded now? If yes -> shoot
 		if (readyToShoot)
 		{
-			//TODO: enemies shoot one bullet towards the player
+			GameObject newBullet = Instantiate(bullet);
+			SetupBullet(newBullet);
 
-			/*//LeftTurret
-			GameObject newBullet1 = Instantiate(bullet);
-			SetupBullet(newBullet1, "LeftTurret");
-
-			//RightTurret
-			GameObject newBullet2 = Instantiate(bullet);
-			SetupBullet(newBullet2, "RightTurret");*/
-
-			Vector2 player_position = new Vector2(player.transform.position.x, player.transform.position.y);
-			Vector2 own_position = new Vector2(transform.position.x, transform.position.y);
-
-			Vector2 x_axel = new Vector2(1, 0);
-			Vector2 direction_to_player = new Vector2(player_position.x - own_position.x, player_position.y - own_position.y);
-
-			float angle = Mathf.Acos(Vector2.Dot(x_axel, direction_to_player) / (x_axel.magnitude * direction_to_player.magnitude));
-
-			readyToShoot = false;
+			 readyToShoot = false;
 		}
 
 	}
 
 	//Setup the position and velocity of the new bullet
-	void SetupBullet(GameObject aBullet, string turret)
+	void SetupBullet(GameObject aBullet)
 	{
-		aBullet.transform.position =
-			new Vector3(transform.Find(turret).transform.position.x,
-			transform.Find(turret).transform.position.y,
-			transform.Find(turret).transform.position.z);
+		aBullet.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 		aBullet.SetActive(true);
-		aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-bulletSpeed, 0);
+
+		float angle = Random.Range(-180, 180);
+
+		float x_speed = Mathf.Cos(angle) * bulletSpeed;
+		float y_speed = Mathf.Sin(angle) * bulletSpeed;
+
+		aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(x_speed, y_speed);
+
+
 
 	}
 

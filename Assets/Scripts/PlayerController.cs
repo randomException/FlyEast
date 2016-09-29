@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
 	public float speed;
+	public float enemy_speed;
 	public float bulletSpeed;
 	public GameObject bullet;
 	public GameObject enemyPlane;
@@ -22,6 +24,11 @@ public class PlayerController : MonoBehaviour {
 		reloadTimeRemaining = reloadTime;
 		readyToShoot = true;
 		Timer();
+
+
+		Debug.logger.Log("-180: ", Mathf.Cos(-Mathf.PI));
+		Debug.logger.Log("-90: ", Mathf.Cos(-90 / (2 * Mathf.PI) * 360));
+		Debug.logger.Log("0: ", Mathf.Cos(0 / (2 * Mathf.PI) * 360));
 	}
 	
 	// Update is called once per frame
@@ -101,20 +108,22 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator Wait(float time)
 	{
 		yield return new WaitForSeconds(time);
-		createNewEnemy(new Vector2(23, 6), 270);
-		createNewEnemy(new Vector2(23, 1), 270);
-		createNewEnemy(new Vector2(23, -4), 270);
+		createNewEnemy(new Vector2(23, 6), -Mathf.PI);
+		createNewEnemy(new Vector2(23, 1), -Mathf.PI);
+		createNewEnemy(new Vector2(23, -4), -Mathf.PI);
 
 		yield return new WaitForSeconds(8);
-		createNewEnemy(new Vector2(23, -4), 270);
-		createNewEnemy(new Vector2(23, -9), 270);
-		createNewEnemy(new Vector2(23, -13), 270);
+		createNewEnemy(new Vector2(23, -4), -Mathf.PI);
+		createNewEnemy(new Vector2(23, -9), -Mathf.PI);
+		createNewEnemy(new Vector2(23, -13), -Mathf.PI);
 	}
 	
 	//Ends the game with notifications
 	void gameOver()
 	{
 		gameOverText.text = "Game Over!";
+		SceneManager.LoadScene("Main");
+
 	}
 
 	//Collision handler
@@ -133,11 +142,23 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	void OnCollisionEnter2d(Collision2D other)
+	{
+		if(other.gameObject.tag == "BasicEnemy")
+		{
+			Debug.logger.Log("MAYDAY!");
+		}
+	}
+
+	//Creates a new enemy to the given postition and directions
+	//Rotation is given in radians. -PI == -180 ==> moving from right to left
 	void createNewEnemy(Vector2 pos, float rot)
 	{
 		GameObject newEnemy = Instantiate(enemyPlane);
 		newEnemy.transform.position = pos;
 		newEnemy.SetActive(true);
-		newEnemy.GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sin((rot/360) * 2 * Mathf.PI), Mathf.Cos((rot / 360) * 2 * Mathf.PI));
+
+		newEnemy.GetComponent<Rigidbody2D>().velocity =
+			new Vector2(Mathf.Cos(rot) * enemy_speed, Mathf.Sin(rot) * enemy_speed);
 	}
 }
