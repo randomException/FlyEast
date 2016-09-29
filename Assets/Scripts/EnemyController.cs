@@ -7,9 +7,13 @@ public class EnemyController : MonoBehaviour {
 	public GameObject bullet;
 	public float bulletSpeed;
 	public float HP;
+	public string movementMode;
+	public string movementAngle;
 
 	private bool readyToShoot;
 	private float reloadTimeRemaining;
+	//time that the plane has been living
+	private int lifeTime=0;
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +23,9 @@ public class EnemyController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		lifeTime++;
 		Shoot();
+		transform.Rotate=getAngle ();
 	}
 
 	//Function for shooting
@@ -75,6 +81,20 @@ public class EnemyController : MonoBehaviour {
 			{
 				Destroy(gameObject);
 			}
+		}
+	}
+
+	void getCurrentAngle(){
+		switch (movementMode){
+		case "straight":
+			return movementAngle;
+			break;
+		case "sinusoidal":
+			//base angle + sin(time / oscilation length)*oscillation intensity in... ¿deg?
+			return movementAngle + Mathf.Sin (lifeTime / 100.00)*40;
+			break;
+		case "arc":
+			return movementAngle+lifeTime;
 		}
 	}
 }
