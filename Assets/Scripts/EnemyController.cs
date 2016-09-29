@@ -25,7 +25,9 @@ public class EnemyController : MonoBehaviour {
 	void Update () {
 		lifeTime++;
 		Shoot();
-		transform.rotation = new Quaternion(getCurrentAngle(), 0, 0, 1);
+		transform.eulerAngles = new Vector3 (0,0,getRotationAngle());
+		//transform.RotateAround (transform.position, Vector3.forward, );
+		//transform.rotation = new Quaternion(getCurrentAngle(), 0, 0, 1);
 	}
 
 	//Function for shooting
@@ -84,7 +86,7 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
-	float getCurrentAngle(){
+	float getRotationAngle(){
 		switch (movementMode){
 		case "straight":
 			return movementAngle;
@@ -94,7 +96,7 @@ public class EnemyController : MonoBehaviour {
 		case "arc":
 			return movementAngle+lifeTime;
 		default:
-			return movementAngle;
+			return 0;
 		}
 	}
 }
