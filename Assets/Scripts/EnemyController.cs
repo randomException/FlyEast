@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour {
 	public float bulletSpeed;
 	public float HP;
 	public string movementMode;
-	public string movementAngle;
+	public float movementAngle;
 
 	private bool readyToShoot;
 	private float reloadTimeRemaining;
@@ -25,7 +25,7 @@ public class EnemyController : MonoBehaviour {
 	void Update () {
 		lifeTime++;
 		Shoot();
-		transform.Rotate=getAngle ();
+		transform.rotation = new Quaternion(getCurrentAngle(), 0, 0, 1);
 	}
 
 	//Function for shooting
@@ -84,17 +84,17 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
-	void getCurrentAngle(){
+	float getCurrentAngle(){
 		switch (movementMode){
 		case "straight":
 			return movementAngle;
-			break;
 		case "sinusoidal":
 			//base angle + sin(time / oscilation length)*oscillation intensity in... ¿deg?
-			return movementAngle + Mathf.Sin (lifeTime / 100.00)*40;
-			break;
+			return movementAngle + Mathf.Sin (lifeTime / 100.00f)*40;
 		case "arc":
 			return movementAngle+lifeTime;
+		default:
+			return movementAngle;
 		}
 	}
 }
