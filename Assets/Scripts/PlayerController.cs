@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour {
 			transform.Find(turret).transform.position.y,
 			transform.Find(turret).transform.position.z);
 		aBullet.SetActive(true);
-		aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(0, bulletSpeed);
+		aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
 
 	}
 
@@ -101,14 +101,14 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator Wait(float time)
 	{
 		yield return new WaitForSeconds(time);
-		createNewEnemy(new Vector2(-9, 6), 270);
-		createNewEnemy(new Vector2(-15, 6), 270);
-		createNewEnemy(new Vector2(-3, 6), 270);
+		createNewEnemy(new Vector2(23, 6), 270);
+		createNewEnemy(new Vector2(23, 1), 270);
+		createNewEnemy(new Vector2(23, -4), 270);
 
 		yield return new WaitForSeconds(8);
-		createNewEnemy(new Vector2(9, 6), 270);
-		createNewEnemy(new Vector2(15, 6), 270);
-		createNewEnemy(new Vector2(3, 6), 270);
+		createNewEnemy(new Vector2(23, -4), 270);
+		createNewEnemy(new Vector2(23, -9), 270);
+		createNewEnemy(new Vector2(23, -13), 270);
 	}
 	
 	//Ends the game with notifications
@@ -118,15 +118,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//Collision handler
-	void OnCollisionEnter2D(Collision2D other)
+	void OnTriggerEnter2D(Collider2D other)
 	{
-		//Player hits his/her own bullets
-		if (other.gameObject.tag == "PlayerBullet")
-		{
-			Debug.logger.Log("hit");
-			Physics2D.IgnoreCollision(other.collider, GetComponent<Collider2D>());
-		}
-
 		//Player hits enemy bullets
 		if (other.gameObject.tag == "Bullet")
 		{
@@ -145,6 +138,6 @@ public class PlayerController : MonoBehaviour {
 		GameObject newEnemy = Instantiate(enemyPlane);
 		newEnemy.transform.position = pos;
 		newEnemy.SetActive(true);
-		newEnemy.GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos((rot/360) * 2 * Mathf.PI), Mathf.Sin((rot/360) * 2 * Mathf.PI));
+		newEnemy.GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sin((rot/360) * 2 * Mathf.PI), Mathf.Cos((rot / 360) * 2 * Mathf.PI));
 	}
 }

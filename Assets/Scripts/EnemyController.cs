@@ -60,26 +60,20 @@ public class EnemyController : MonoBehaviour {
 			transform.Find(turret).transform.position.y,
 			transform.Find(turret).transform.position.z);
 		aBullet.SetActive(true);
-		aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -bulletSpeed);
+		aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-bulletSpeed, 0);
 
 	}
 
 	//Collision handler
-	void OnCollisionEnter2D(Collision2D other)
+	void OnTriggerEnter2D(Collider2D other)
 	{
-		//Enemy hits enemy bullet
-		if (other.gameObject.tag == "Bullet")
-		{
-			Physics2D.IgnoreCollision(other.collider, GetComponent<Collider2D>());
-		}
-
 		//Enemy hits player's bullet
 		if (other.gameObject.tag == "PlayerBullet")
 		{
 			HP -= 10;
 			if (HP <= 0)
 			{
-				gameObject.SetActive(false);
+				Destroy(gameObject);
 			}
 		}
 	}
