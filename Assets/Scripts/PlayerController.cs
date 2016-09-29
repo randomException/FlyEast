@@ -16,19 +16,16 @@ public class PlayerController : MonoBehaviour {
 
 	private float reloadTimeRemaining;
 	private bool readyToShoot;
-	
+
+	private int hitDamage;
 
 	// Use this for initialization
 	void Start () {
 		gameOverText.text = "";
+		hitDamage = -5;
 		reloadTimeRemaining = reloadTime;
 		readyToShoot = true;
 		Timer();
-
-
-		Debug.logger.Log("-180: ", Mathf.Cos(-Mathf.PI));
-		Debug.logger.Log("-90: ", Mathf.Cos(-90 / (2 * Mathf.PI) * 360));
-		Debug.logger.Log("0: ", Mathf.Cos(0 / (2 * Mathf.PI) * 360));
 	}
 	
 	// Update is called once per frame
@@ -122,8 +119,15 @@ public class PlayerController : MonoBehaviour {
 	void gameOver()
 	{
 		gameOverText.text = "Game Over!";
-		SceneManager.LoadScene("Main");
 
+		StartCoroutine(WaitForRestart());
+
+	}
+
+	IEnumerator WaitForRestart()
+	{
+		yield return new WaitForSeconds(3);
+		SceneManager.LoadScene("Main");
 	}
 
 	//Collision handler
@@ -132,23 +136,22 @@ public class PlayerController : MonoBehaviour {
 		//Player hits enemy bullets
 		if (other.gameObject.tag == "Bullet")
 		{
-			Debug.logger.Log("HIT");
-			HP -= 5;
-			if(HP <= 0)
-			{
-				gameOver();
-			}
+			changeHealth(hitDamage);
 			Destroy(other.gameObject);
+		}
+		else if (other.gameObject.tag == "Enemy")
+		{
+			changeHealth(hitDamage);
 		}
 	}
 
-	void OnCollisionEnter2d(Collision2D other)
+	/*void OnCollisionEnter2d(Collision2D other)
 	{
-		if(other.gameObject.tag == "BasicEnemy")
+		if(other.gameObject.tag == "Enemy")
 		{
 			Debug.logger.Log("MAYDAY!");
 		}
-	}
+	}*/
 
 	//Creates a new enemy to the given postition and directions
 	//Rotation is given in radians. -PI == -180 ==> moving from right to left
@@ -160,5 +163,14 @@ public class PlayerController : MonoBehaviour {
 
 		newEnemy.GetComponent<Rigidbody2D>().velocity =
 			new Vector2(Mathf.Cos(rot) * enemy_speed, Mathf.Sin(rot) * enemy_speed);
+	}
+
+	void changeHealth(int amount)
+	{
+		HP += amount;
+		if(HP <= 0)
+		{
+			gameOver();
+		}
 	}
 }
