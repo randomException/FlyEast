@@ -151,14 +151,6 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	/*void OnCollisionEnter2d(Collision2D other)
-	{
-		if(other.gameObject.tag == "Enemy")
-		{
-			Debug.logger.Log("MAYDAY!");
-		}
-	}*/
-
 	//Creates a new enemy to the given postition and directions
 	//Rotation is given in radians. -PI == -180 ==> moving from right to left
 	void createNewEnemy(Vector2 pos, float rot)

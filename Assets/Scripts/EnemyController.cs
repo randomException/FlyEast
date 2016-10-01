@@ -23,7 +23,8 @@ public class EnemyController : MonoBehaviour {
 	void Start () {
 		readyToShoot = true;
 		reloadTimeRemaining = reloadTime;
-		ofb = new OutOfBounds();
+
+		ofb = gameObject.AddComponent<OutOfBounds>();
 		inPlay = false;
 	}
 	
@@ -40,6 +41,17 @@ public class EnemyController : MonoBehaviour {
 		//transform.position += myVector;
 		//transform.RotateAround (transform.position, Vector3.forward, );
 		//transform.rotation = new Quaternion(getCurrentAngle(), 0, 0, 1);
+
+		if (!inPlay)
+		{
+			if (ofb.IsInCameraArea(transform.position.x, transform.position.y))
+				inPlay = true;
+		}
+		if (inPlay)
+		{
+			if (!ofb.IsInPlayArea(transform.position.x, transform.position.y))
+				Destroy(gameObject);
+		}
 	}
 
 	//Function for shooting
@@ -56,8 +68,8 @@ public class EnemyController : MonoBehaviour {
 			}
 		}
 
-		//Has the turrets been reloaded now? If yes -> shoot
-		if (readyToShoot)
+		//Has the turrets been reloaded now and the plane is in camera area? If yes -> shoot
+		if (readyToShoot && inPlay)
 		{
 			GameObject newBullet = Instantiate(bullet);
 			SetupBullet(newBullet);
