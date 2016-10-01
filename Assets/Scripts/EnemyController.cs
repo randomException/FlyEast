@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour {
 	public float HP;
 	public string movementMode;
 	public float movementAngle;
+	public float movementSpeed;
 
 	private bool readyToShoot;
 	private float reloadTimeRemaining;
@@ -23,9 +24,15 @@ public class EnemyController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//pendant: replace by deltatime.
 		lifeTime++;
 		Shoot();
 		transform.eulerAngles = new Vector3 (0,0,getRotationAngle());
+		//here we need to put a function that will make the object position to increment
+		//in x and y according to the transform angle.
+		//transform.Translate(Mathf.Cos(transform.rotation.z/180*Mathf.PI)*Time.deltaTime,Mathf.Sin(transform.rotation.z/180*Mathf.PI)*Time.deltaTime,0);
+
+		//transform.position += myVector;
 		//transform.RotateAround (transform.position, Vector3.forward, );
 		//transform.rotation = new Quaternion(getCurrentAngle(), 0, 0, 1);
 	}
