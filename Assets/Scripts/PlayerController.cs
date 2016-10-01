@@ -5,19 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
-	public float speed;
-	public float enemy_speed;
-	public float bulletSpeed;
-	public GameObject bullet;
-	public GameObject enemyPlane;
-	public float reloadTime;
-	public float HP;
-	public Text gameOverText;
+	public float speed;						//Movement speed
+	public float enemy_speed;				//Enemies movement speed
+	public float bulletSpeed;				//Players bullet movement speed
+	public GameObject bullet;				//Instance of player's bullet. Will be used to create new bullets 
+	public GameObject enemyPlane;           //Instance of enemy planes. Will be used to create new enemies 
+	public float reloadTime;				//Tells the time between bullets are fired
+	public float HP;						//Player's health points
+	public Text gameOverText;				//UI text which appears when player dies
 
-	private float reloadTimeRemaining;
-	private bool readyToShoot;
+	private float reloadTimeRemaining;		//How much time is left before next shooting
+	private bool readyToShoot;				//Tells if player is ready to shoot new bullet
 
-	private int hitDamage;
+	private int hitDamage;					//How many HPs player is going to lose when hitted by enemy planes or enemy bullets
 
 	// Use this for initialization
 	void Start () {
@@ -33,11 +33,10 @@ public class PlayerController : MonoBehaviour {
 		//reset velocity to zero
 		GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 
-		//Movement: up, down, right and left. Shoow when moving
+		//Movement: up, down, right and left. Shoot when moving
+		//Play area: x: -23 to +23 and y: -10 to +10
+		//if player is out of play area, moving further is not allowed
 		if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)){
-
-			//Play area: x: -23 to +23 and y: -10 to +10
-
 			if (transform.position.y <= 10)
 				GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, speed);
 			Shoot();
@@ -112,14 +111,14 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator Wait(float time)
 	{
 		yield return new WaitForSeconds(time);
-		createNewEnemy(new Vector2(23, 6), -Mathf.PI);
-		createNewEnemy(new Vector2(23, 1), -Mathf.PI);
-		createNewEnemy(new Vector2(23, -4), -Mathf.PI);
+		createNewEnemy(new Vector2(27, 6), -Mathf.PI);
+		createNewEnemy(new Vector2(27, 1), -Mathf.PI);
+		createNewEnemy(new Vector2(27, -4), -Mathf.PI);
 
 		yield return new WaitForSeconds(8);
-		createNewEnemy(new Vector2(23, -4), -Mathf.PI);
-		createNewEnemy(new Vector2(23, -9), -Mathf.PI);
-		createNewEnemy(new Vector2(23, -13), -Mathf.PI);
+		createNewEnemy(new Vector2(27, -2), -Mathf.PI);
+		createNewEnemy(new Vector2(27, -7), -Mathf.PI);
+		createNewEnemy(new Vector2(27, -11), -Mathf.PI);
 	}
 	
 	//Ends the game with notifications

@@ -3,23 +3,28 @@ using System.Collections;
 
 public class EnemyController : MonoBehaviour {
 
-	public float reloadTime;
-	public GameObject bullet;
-	public float bulletSpeed;
-	public float HP;
-	public string movementMode;
-	public float movementAngle;
-	public float movementSpeed;
+	public float reloadTime;                    //Tells the time between bullets are fired
+	public GameObject bullet;                   //Instance of enemies' bullets. Will be used to create new bullets 
+	public float bulletSpeed;                   //Bullet movement speed
+	public float HP;							//Enemy's health points
+	public string movementMode;					//The way enemy moves (straight, sin, arc, etc.)
+	public float movementAngle;					//??? - Joaquin
+	public float movementSpeed;					//??? - Joaquin
 
-	private bool readyToShoot;
-	private float reloadTimeRemaining;
-	//time that the plane has been living
-	private int lifeTime=0;
+	private bool readyToShoot;                  //Tells if enemy is ready to shoot new bullet
+	private float reloadTimeRemaining;			//How much time is left before next shooting
+	
+	private int lifeTime=0;                     //Time that the plane has been living
+
+	private OutOfBounds ofb;					//'Out of bounds' class instance
+	private bool inPlay;						//Tells if enemy has entered game area (== camera area)
 
 	// Use this for initialization
 	void Start () {
 		readyToShoot = true;
 		reloadTimeRemaining = reloadTime;
+		ofb = new OutOfBounds();
+		inPlay = false;
 	}
 	
 	// Update is called once per frame
@@ -75,8 +80,6 @@ public class EnemyController : MonoBehaviour {
 
 		aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(x_speed, y_speed);
 
-
-
 	}
 
 	//Collision handler
@@ -85,7 +88,7 @@ public class EnemyController : MonoBehaviour {
 		//Enemy hits player's bullet
 		if (other.gameObject.tag == "PlayerBullet")
 		{
-			HP -= 10;
+			HP -= 5;
 			if (HP <= 0)
 			{
 				Destroy(gameObject);
