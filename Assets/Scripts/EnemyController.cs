@@ -33,7 +33,8 @@ public class EnemyController : MonoBehaviour {
 		//pendant: replace by deltatime.
 		lifeTime++;
 		Shoot();
-		transform.eulerAngles = new Vector3 (0,0,getRotationAngle());
+		//transform.eulerAngles = new Vector3 (0,0,getRotationAngle());
+		
 		//here we need to put a function that will make the object position to increment
 		//in x and y according to the transform angle.
 		//transform.Translate(Mathf.Cos(transform.rotation.z/180*Mathf.PI)*Time.deltaTime,Mathf.Sin(transform.rotation.z/180*Mathf.PI)*Time.deltaTime,0);

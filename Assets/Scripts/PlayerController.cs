@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -119,6 +120,13 @@ public class PlayerController : MonoBehaviour {
 		createNewEnemy(new Vector2(27, -2), -Mathf.PI);
 		createNewEnemy(new Vector2(27, -7), -Mathf.PI);
 		createNewEnemy(new Vector2(27, -11), -Mathf.PI);
+
+		yield return new WaitForSeconds(3);
+		createNewEnemy(new Vector2(4, -14), Mathf.PI * 3 / 4);
+		createNewEnemy(new Vector2(10, -14), Mathf.PI * 3 / 4);
+		createNewEnemy(new Vector2(16, -14), Mathf.PI * 3 / 4);
+
+		yield return new WaitForSeconds(1);
 	}
 	
 	//Ends the game with notifications
@@ -153,14 +161,23 @@ public class PlayerController : MonoBehaviour {
 
 	//Creates a new enemy to the given postition and directions
 	//Rotation is given in radians. -PI == -180 ==> moving from right to left
-	void createNewEnemy(Vector2 pos, float rot)
+	void createNewEnemy(Vector2 pos, float rot, List<Vector2> list = null)
 	{
+		//if no list is given as parameter create a new empty list
+		list = list ?? new List<Vector2>();
+
 		GameObject newEnemy = Instantiate(enemyPlane);
 		newEnemy.transform.position = pos;
 		newEnemy.SetActive(true);
 
 		newEnemy.GetComponent<Rigidbody2D>().velocity =
 			new Vector2(Mathf.Cos(rot) * enemy_speed, Mathf.Sin(rot) * enemy_speed);
+
+		//rot and Matf.PI are summed so we can get right rotation angle
+		//left == 0, down == 90, right == 180 and up == 270 (in degrees)
+		rot += Mathf.PI;
+		newEnemy.transform.Rotate(new Vector3(0, 0, Mathf.Rad2Deg * rot), Space.Self);
+		
 	}
 
 	void changeHealth(int amount)
