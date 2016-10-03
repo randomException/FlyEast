@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyController : MonoBehaviour {
 
@@ -12,26 +13,37 @@ public class EnemyController : MonoBehaviour {
 	public float movementSpeed;					//??? - Joaquin
 
 	private bool readyToShoot;                  //Tells if enemy is ready to shoot new bullet
-	private float reloadTimeRemaining;			//How much time is left before next shooting
+	private float reloadTimeRemaining;          //How much time is left before next shooting
+	private float hitDamage;					//How much enemy loses HP when it hits with player's bullet
 	
 	private int lifeTime=0;                     //Time that the plane has been living
+	private float lifeTimeSeconds;              //Time that the plane has been living in seconds
 
 	private OutOfBounds ofb;					//'Out of bounds' class instance
-	private bool inPlay;						//Tells if enemy has entered game area (== camera area)
+	private bool inPlay;                        //Tells if enemy has entered game area (== camera area)
+
+	private Spline spline;                      //'Out of bounds' class instance fot curves
+	private bool hasSpline = false;				//Tells if object has a spline object
 
 	// Use this for initialization
 	void Start () {
 		readyToShoot = true;
 		reloadTimeRemaining = reloadTime;
+		hitDamage = 10;
+		lifeTimeSeconds = 0;
 
 		ofb = gameObject.AddComponent<OutOfBounds>();
 		inPlay = false;
+
+		if(hasSpline)
+			GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//pendant: replace by deltatime.
 		lifeTime++;
+		lifeTimeSeconds += Time.deltaTime;
 		Shoot();
 		//transform.eulerAngles = new Vector3 (0,0,getRotationAngle());
 		
@@ -52,6 +64,12 @@ public class EnemyController : MonoBehaviour {
 		{
 			if (!ofb.IsInPlayArea(transform.position.x, transform.position.y))
 				Destroy(gameObject);
+		}
+
+		if (hasSpline)
+		{
+			Vector2 newLocation = spline.NewLocation(lifeTimeSeconds / 10);
+			transform.position = new Vector3(newLocation.x, newLocation.y, 0);
 		}
 	}
 
@@ -101,7 +119,8 @@ public class EnemyController : MonoBehaviour {
 		//Enemy hits player's bullet
 		if (other.gameObject.tag == "PlayerBullet")
 		{
-			HP -= 5;
+			Destroy(other.gameObject);
+			HP -= hitDamage;
 			if (HP <= 0)
 			{
 				Destroy(gameObject);
@@ -121,5 +140,12 @@ public class EnemyController : MonoBehaviour {
 		default:
 			return 0;
 		}
+	}
+
+	public void setupSpline(List<Vector2> list)
+	{
+		hasSpline = true;
+		spline = gameObject.AddComponent<Spline>();
+		spline.Setup(list);
 	}
 }

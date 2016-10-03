@@ -18,7 +18,9 @@ public class PlayerController : MonoBehaviour {
 	private float reloadTimeRemaining;		//How much time is left before next shooting
 	private bool readyToShoot;				//Tells if player is ready to shoot new bullet
 
-	private int hitDamage;					//How many HPs player is going to lose when hitted by enemy planes or enemy bullets
+	private int hitDamage;                  //How many HPs player is going to lose when hitted by enemy planes or enemy bullets
+
+	private EnemyController enemyController;	//EnemyController script
 
 	// Use this for initialization
 	void Start () {
@@ -127,6 +129,16 @@ public class PlayerController : MonoBehaviour {
 		createNewEnemy(new Vector2(16, -14), Mathf.PI * 3 / 4);
 
 		yield return new WaitForSeconds(1);
+		
+		//Spline for new enemy
+		List<Vector2> list = new List<Vector2>();
+		list.Add(new Vector2(30, 0));
+		list.Add(new Vector2(7, 20));
+		list.Add(new Vector2(-11, -30));
+		list.Add(new Vector2(-30, -1));
+
+		createNewEnemy(new Vector2(30, 0), -Mathf.PI, list);
+
 	}
 	
 	//Ends the game with notifications
@@ -163,9 +175,6 @@ public class PlayerController : MonoBehaviour {
 	//Rotation is given in radians. -PI == -180 ==> moving from right to left
 	void createNewEnemy(Vector2 pos, float rot, List<Vector2> list = null)
 	{
-		//if no list is given as parameter create a new empty list
-		list = list ?? new List<Vector2>();
-
 		GameObject newEnemy = Instantiate(enemyPlane);
 		newEnemy.transform.position = pos;
 		newEnemy.SetActive(true);
@@ -177,7 +186,11 @@ public class PlayerController : MonoBehaviour {
 		//left == 0, down == 90, right == 180 and up == 270 (in degrees)
 		rot += Mathf.PI;
 		newEnemy.transform.Rotate(new Vector3(0, 0, Mathf.Rad2Deg * rot), Space.Self);
-		
+
+		if (list != null)
+		{
+			newEnemy.GetComponent<EnemyController>().setupSpline(list);
+		}
 	}
 
 	void changeHealth(int amount)
