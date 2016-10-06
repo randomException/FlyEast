@@ -14,18 +14,24 @@ public class TestingSplinesScript : MonoBehaviour {
 	private List<Vector2> pointList;
 
 	// Use this for initialization
-	void Start () {
+	/*void Start () {
 		pointList = new List<Vector2>();
 		pointList.Add(v1);
 		pointList.Add(v2);
 		pointList.Add(v3);
 		pointList.Add(v4);
 
-		Draw();
-	}
-	
+		//Draw();
+	}*/
+
 	// Update is called once per frame
-	void Draw() {
+	void Update() {
+		pointList = new List<Vector2>();
+		pointList.Add(v1);
+		pointList.Add(v2);
+		pointList.Add(v3);
+		pointList.Add(v4);
+
 		for (float i = 0; i <= 100; i++)
 		{
 			GameObject newBall = Instantiate(testBall);

@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour {
 	//Defines how much we are waiting before enemies appears
 	IEnumerator Wait(float time)
 	{
-		/*yield return new WaitForSeconds(time);
+		yield return new WaitForSeconds(time);
 		createNewEnemy(new Vector2(27, 6), -Mathf.PI);
 		createNewEnemy(new Vector2(27, 1), -Mathf.PI);
 		createNewEnemy(new Vector2(27, -4), -Mathf.PI);
@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour {
 		yield return new WaitForSeconds(3);
 		createNewEnemy(new Vector2(4, -14), Mathf.PI * 3 / 4);
 		createNewEnemy(new Vector2(10, -14), Mathf.PI * 3 / 4);
-		createNewEnemy(new Vector2(16, -14), Mathf.PI * 3 / 4);*/
+		createNewEnemy(new Vector2(16, -14), Mathf.PI * 3 / 4);
 
 		yield return new WaitForSeconds(1);
 		
