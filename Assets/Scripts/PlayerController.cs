@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour {
 	private bool readyToShoot;				//Tells if player is ready to shoot new bullet
 
 	private int hitDamage;                  //How many HPs player is going to lose when hitted by enemy planes or enemy bullets
+	private int superPower;                 //Tells how much of the super power has been filled (10 == full, 0 == empty)
+	private bool superPowerReady;			//Tells if super power is ready to use
 
 	private EnemyController enemyController;    //EnemyController script
 
@@ -26,8 +28,13 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		gameOverText.text = "";
 		hitDamage = -5;
+
 		reloadTimeRemaining = reloadTime;
 		readyToShoot = true;
+
+		superPower = 0;
+		superPowerReady = false;
+
 		Timer();
 	}
 	
@@ -39,6 +46,7 @@ public class PlayerController : MonoBehaviour {
 		//Movement: up, down, right and left. Shoot when moving
 		//Play area: x: -23 to +23 and y: -10 to +10
 		//if player is out of play area, moving further is not allowed
+		//MOve player with keys W, A, S and D
 		if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)){
 			if (transform.position.y <= 10)
 				GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, speed);
@@ -58,6 +66,12 @@ public class PlayerController : MonoBehaviour {
 			if (transform.position.x >= -23)
 				GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, GetComponent<Rigidbody2D>().velocity.y);
 			Shoot();
+		}
+
+		//Use super power with Space
+		if (Input.GetKey(KeyCode.Space) && superPowerReady)
+		{
+			UseSuperPower();
 		}
 
 	}
@@ -104,29 +118,29 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
-	//The timer of the game. Defines when enemies appears.
+	//Calls the timer of the game
 	void Timer()
 	{
 		StartCoroutine(Wait(1));
 	}
 
-	//Defines how much we are waiting before enemies appears
+	//Defines when and where enemies appears and how they move
 	IEnumerator Wait(float time)
 	{
 		yield return new WaitForSeconds(time);
-		createNewEnemy(new Vector2(27, 6), -Mathf.PI);
-		createNewEnemy(new Vector2(27, 1), -Mathf.PI);
-		createNewEnemy(new Vector2(27, -4), -Mathf.PI);
+		CreateNewEnemy(new Vector2(27, 6), -Mathf.PI);
+		CreateNewEnemy(new Vector2(27, 1), -Mathf.PI);
+		CreateNewEnemy(new Vector2(27, -4), -Mathf.PI);
 
 		yield return new WaitForSeconds(8);
-		createNewEnemy(new Vector2(27, -2), -Mathf.PI);
-		createNewEnemy(new Vector2(27, -7), -Mathf.PI);
-		createNewEnemy(new Vector2(27, -11), -Mathf.PI);
+		CreateNewEnemy(new Vector2(27, -2), -Mathf.PI);
+		CreateNewEnemy(new Vector2(27, -7), -Mathf.PI);
+		CreateNewEnemy(new Vector2(27, -11), -Mathf.PI);
 
 		yield return new WaitForSeconds(3);
-		createNewEnemy(new Vector2(4, -14), Mathf.PI * 3 / 4);
-		createNewEnemy(new Vector2(10, -14), Mathf.PI * 3 / 4);
-		createNewEnemy(new Vector2(16, -14), Mathf.PI * 3 / 4);
+		CreateNewEnemy(new Vector2(4, -14), Mathf.PI * 3 / 4);
+		CreateNewEnemy(new Vector2(10, -14), Mathf.PI * 3 / 4);
+		CreateNewEnemy(new Vector2(16, -14), Mathf.PI * 3 / 4);
 
 		yield return new WaitForSeconds(1);
 		
@@ -137,7 +151,7 @@ public class PlayerController : MonoBehaviour {
 		list.Add(new Vector2(-11, -30));
 		list.Add(new Vector2(-30, -50));
 
-		createNewEnemy(list[0], -Mathf.PI, list);
+		CreateNewEnemy(list[0], -Mathf.PI, list);
 
 	}
 	
@@ -150,6 +164,7 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
+	//When died wait 3s before restarting the level
 	IEnumerator WaitForRestart()
 	{
 		yield return new WaitForSeconds(3);
@@ -162,18 +177,18 @@ public class PlayerController : MonoBehaviour {
 		//Player hits enemy bullets
 		if (other.gameObject.tag == "Bullet")
 		{
-			changeHealth(hitDamage);
+			ChangeHealth(hitDamage);
 			Destroy(other.gameObject);
 		}
 		else if (other.gameObject.tag == "Enemy")
 		{
-			changeHealth(hitDamage);
+			ChangeHealth(hitDamage);
 		}
 	}
 
 	//Creates a new enemy to the given postition and directions
 	//Rotation is given in radians. -PI == -180 ==> moving from right to left
-	void createNewEnemy(Vector2 pos, float rot, List<Vector2> list = null)
+	void CreateNewEnemy(Vector2 pos, float rot, List<Vector2> list = null)
 	{
 		GameObject newEnemy = Instantiate(enemyPlane);
 		newEnemy.transform.position = pos;
@@ -182,7 +197,7 @@ public class PlayerController : MonoBehaviour {
 		newEnemy.GetComponent<Rigidbody2D>().velocity =
 			new Vector2(Mathf.Cos(rot) * enemy_speed, Mathf.Sin(rot) * enemy_speed);
 
-		//rot and Matf.PI are summed so we can get right rotation angle
+		//rot and Matf.PI are multiplied so we can get right rotation angle
 		//left == 0, down == 90, right == 180 and up == 270 (in degrees)
 		rot += Mathf.PI;
 		newEnemy.transform.Rotate(new Vector3(0, 0, Mathf.Rad2Deg * rot), Space.Self);
@@ -193,12 +208,32 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void changeHealth(int amount)
+	//Increase or decrease player's health points
+	void ChangeHealth(int amount)
 	{
 		HP += amount;
 		if(HP <= 0)
 		{
 			gameOver();
 		}
+	}
+
+	//Increase super power. If full -> super power is ready
+	public void IncreaseSuperPower()
+	{
+		superPower += 1;
+		if (superPower >= 10)
+		{
+			superPowerReady = true;
+		}
+		print("Super is now " + superPower.ToString());
+	}
+
+	//Activate the super power
+	void UseSuperPower()
+	{
+		superPower = 0;
+		superPowerReady = false;
+		//TODO
 	}
 }

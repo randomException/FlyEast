@@ -7,7 +7,8 @@ public class EnemyController : MonoBehaviour {
 	public float reloadTime;                    //Tells the time between bullets are fired
 	public GameObject bullet;                   //Instance of enemies' bullets. Will be used to create new bullets 
 	public float bulletSpeed;                   //Bullet movement speed
-	public float HP;							//Enemy's health points
+	public float HP;                            //Enemy's health points
+
 	public string movementMode;					//The way enemy moves (straight, sin, arc, etc.)
 	public float movementAngle;					//??? - Joaquin
 	public float movementSpeed;					//??? - Joaquin
@@ -23,7 +24,9 @@ public class EnemyController : MonoBehaviour {
 	private bool inPlay;                        //Tells if enemy has entered game area (== camera area)
 
 	private Spline spline;                      //'Out of bounds' class instance fot curves
-	private bool hasSpline = false;				//Tells if object has a spline object
+	private bool hasSpline = false;             //Tells if object has a spline object
+
+	public GameObject player;					//Player game object
 
 	// Use this for initialization
 	void Start () {
@@ -123,6 +126,7 @@ public class EnemyController : MonoBehaviour {
 			HP -= hitDamage;
 			if (HP <= 0)
 			{
+				player.GetComponent<PlayerController>().IncreaseSuperPower();
 				Destroy(gameObject);
 			}
 		}
