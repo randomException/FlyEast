@@ -11,16 +11,20 @@ public class PlayerController : MonoBehaviour {
 	public float bulletSpeed;				//Players bullet movement speed
 	public GameObject bullet;				//Instance of player's bullet. Will be used to create new bullets 
 	public GameObject enemyPlane;           //Instance of enemy planes. Will be used to create new enemies 
+	public GameObject friendlyPlane;        //Instance of friendly planes. Will be used to create new friendlies
 	public float reloadTime;				//Tells the time between bullets are fired
 	public float HP;						//Player's health points
 	public Text gameOverText;				//UI text which appears when player dies
 
 	private float reloadTimeRemaining;		//How much time is left before next shooting
-	private bool readyToShoot;				//Tells if player is ready to shoot new bullet
+	private bool readyToShoot;				//Tells if player is ready to shoot new bullets
 
 	private int hitDamage;                  //How many HPs player is going to lose when hitted by enemy planes or enemy bullets
 	private int superPower;                 //Tells how much of the super power has been filled (10 == full, 0 == empty)
-	private bool superPowerReady;			//Tells if super power is ready to use
+	private bool superPowerReady;           //Tells if super power is ready to use
+	private int maxSuperPower;              //Tells how many super power points player has to have so the super power activates
+
+	private int reviveHealth;				//Telss how much player gains HP when obtained health pack
 
 	private EnemyController enemyController;    //EnemyController script
 
@@ -28,12 +32,14 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		gameOverText.text = "";
 		hitDamage = -5;
+		reviveHealth = 25;
 
 		reloadTimeRemaining = reloadTime;
 		readyToShoot = true;
 
 		superPower = 0;
 		superPowerReady = false;
+		maxSuperPower = 5;
 
 		Timer();
 	}
@@ -128,19 +134,19 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator Wait(float time)
 	{
 		yield return new WaitForSeconds(time);
-		CreateNewEnemy(new Vector2(27, 6), -Mathf.PI);
-		CreateNewEnemy(new Vector2(27, 1), -Mathf.PI);
-		CreateNewEnemy(new Vector2(27, -4), -Mathf.PI);
+		CreateNewEnemy(new Vector2(27, 6), -Mathf.PI, false);
+		CreateNewEnemy(new Vector2(27, 1), -Mathf.PI, false);
+		CreateNewEnemy(new Vector2(27, -4), -Mathf.PI, false);
 
 		yield return new WaitForSeconds(8);
-		CreateNewEnemy(new Vector2(27, -2), -Mathf.PI);
-		CreateNewEnemy(new Vector2(27, -7), -Mathf.PI);
-		CreateNewEnemy(new Vector2(27, -11), -Mathf.PI);
+		CreateNewEnemy(new Vector2(27, -2), -Mathf.PI, false);
+		CreateNewEnemy(new Vector2(27, -7), -Mathf.PI, false);
+		CreateNewEnemy(new Vector2(27, -11), -Mathf.PI, false);
 
 		yield return new WaitForSeconds(3);
-		CreateNewEnemy(new Vector2(4, -14), Mathf.PI * 3 / 4);
-		CreateNewEnemy(new Vector2(10, -14), Mathf.PI * 3 / 4);
-		CreateNewEnemy(new Vector2(16, -14), Mathf.PI * 3 / 4);
+		CreateNewEnemy(new Vector2(4, -14), Mathf.PI * 3 / 4, false);
+		CreateNewEnemy(new Vector2(10, -14), Mathf.PI * 3 / 4, true);
+		CreateNewEnemy(new Vector2(16, -14), Mathf.PI * 3 / 4, false);
 
 		yield return new WaitForSeconds(1);
 		
@@ -151,7 +157,7 @@ public class PlayerController : MonoBehaviour {
 		list.Add(new Vector2(-11, -30));
 		list.Add(new Vector2(-30, -50));
 
-		CreateNewEnemy(list[0], -Mathf.PI, list);
+		CreateNewEnemy(list[0], -Mathf.PI,false, list);
 
 	}
 	
@@ -184,11 +190,16 @@ public class PlayerController : MonoBehaviour {
 		{
 			ChangeHealth(hitDamage);
 		}
+		else if (other.gameObject.tag == "PowerUp")
+		{
+			ChangeHealth(reviveHealth);
+			Destroy(other.gameObject);
+		}
 	}
 
 	//Creates a new enemy to the given postition and directions
 	//Rotation is given in radians. -PI == -180 ==> moving from right to left
-	void CreateNewEnemy(Vector2 pos, float rot, List<Vector2> list = null)
+	void CreateNewEnemy(Vector2 pos, float rot, bool powerup, List<Vector2> list = null)
 	{
 		GameObject newEnemy = Instantiate(enemyPlane);
 		newEnemy.transform.position = pos;
@@ -206,6 +217,13 @@ public class PlayerController : MonoBehaviour {
 		{
 			newEnemy.GetComponent<EnemyController>().setupSpline(list);
 		}
+
+		//If enemy holds a power up, activate the POwerUpCircle child element and drop power up when destroyed by player or friendlies
+		if (powerup)
+		{
+			newEnemy.transform.Find("PowerUpCircle").gameObject.SetActive(true);
+			newEnemy.GetComponent<EnemyController>().setPowerUp();
+		}
 	}
 
 	//Increase or decrease player's health points
@@ -222,11 +240,10 @@ public class PlayerController : MonoBehaviour {
 	public void IncreaseSuperPower()
 	{
 		superPower += 1;
-		if (superPower >= 10)
+		if (superPower >= maxSuperPower)
 		{
 			superPowerReady = true;
 		}
-		print("Super is now " + superPower.ToString());
 	}
 
 	//Activate the super power
@@ -234,6 +251,19 @@ public class PlayerController : MonoBehaviour {
 	{
 		superPower = 0;
 		superPowerReady = false;
-		//TODO
+
+		CreateNewFriend(new Vector2(-50, -10));
+		CreateNewFriend(new Vector2(-40, -5));
+		CreateNewFriend(new Vector2(-30, 0));
+		CreateNewFriend(new Vector2(-40, 5));
+		CreateNewFriend(new Vector2(-50, 10));
+	}
+
+	//create new friendly planes
+	void CreateNewFriend(Vector2 pos)
+	{
+		GameObject newFriendly = Instantiate(friendlyPlane);
+		newFriendly.transform.position = pos;
+		newFriendly.SetActive(true);
 	}
 }

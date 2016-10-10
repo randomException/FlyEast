@@ -9,11 +9,13 @@ public class EnemyController : MonoBehaviour {
 	public float bulletSpeed;                   //Bullet movement speed
 	public float HP;                            //Enemy's health points
 
+	private bool powerUp;							//indeicates if enemy has powerup to drop after dead
+
 	public string movementMode;					//The way enemy moves (straight, sin, arc, etc.)
 	public float movementAngle;					//??? - Joaquin
 	public float movementSpeed;					//??? - Joaquin
 
-	private bool readyToShoot;                  //Tells if enemy is ready to shoot new bullet
+	private bool readyToShoot;                  //Tells if enemy is ready to shoot a new bullet
 	private float reloadTimeRemaining;          //How much time is left before next shooting
 	private float hitDamage;					//How much enemy loses HP when it hits with player's bullet
 	
@@ -26,7 +28,8 @@ public class EnemyController : MonoBehaviour {
 	private Spline spline;                      //'Out of bounds' class instance fot curves
 	private bool hasSpline = false;             //Tells if object has a spline object
 
-	public GameObject player;					//Player game object
+	public GameObject player;                   //Player game object
+	public GameObject powerUpGameObject;        //Instance of power up gameobject
 
 	// Use this for initialization
 	void Start () {
@@ -127,6 +130,8 @@ public class EnemyController : MonoBehaviour {
 			if (HP <= 0)
 			{
 				player.GetComponent<PlayerController>().IncreaseSuperPower();
+				if (powerUp)
+					DropPowerUp();
 				Destroy(gameObject);
 			}
 		}
@@ -146,10 +151,25 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
+	//Setup enemy's spline curv
 	public void setupSpline(List<Vector2> list)
 	{
 		hasSpline = true;
 		spline = gameObject.AddComponent<Spline>();
 		spline.Setup(list);
+	}
+
+	//set the powerUp variable to true
+	public void setPowerUp()
+	{
+		powerUp = true;
+	}
+
+	//drop a powerUp to dead location
+	void DropPowerUp()
+	{
+		GameObject newPowerUp = Instantiate(powerUpGameObject);
+		newPowerUp.SetActive(true);
+		newPowerUp.transform.position = transform.position;
 	}
 }
