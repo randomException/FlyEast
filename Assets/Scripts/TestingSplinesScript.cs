@@ -32,12 +32,40 @@ public class TestingSplinesScript : MonoBehaviour {
 		pointList.Add(v3);
 		pointList.Add(v4);
 
+		List<GameObject> list = new List<GameObject>();
+
 		for (float i = 0; i <= 100; i++)
 		{
 			GameObject newBall = Instantiate(testBall);
 			Vector2 newPosition = NewLocation(i / 100);
 			newBall.transform.position = new Vector3(newPosition.x, newPosition.y, 0);
 			newBall.SetActive(true);
+
+			list.Add(newBall);
+		}
+
+		/*list.ForEach(delegate (GameObject obj)
+		{
+			obj.SetActive(false);
+			list.Remove(obj);
+		});*/
+
+		StartCoroutine(Wait(0.1f, list));
+
+		/*foreach (GameObject obj in list)
+		{
+			obj.SetActive(false);
+			Destroy(obj);
+		}*/
+	}
+
+	IEnumerator Wait(float time, List<GameObject> list)
+	{
+		yield return new WaitForSeconds(time);
+		foreach (GameObject obj in list)
+		{
+			obj.SetActive(false);
+			Destroy(obj);
 		}
 	}
 
