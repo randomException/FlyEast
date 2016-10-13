@@ -57,13 +57,11 @@ public class FriendlyPlaneController : MonoBehaviour {
 		//Has the turrets been reloaded now and the plane is in camera area? If yes -> shoot
 		if (readyToShoot && inPlay)
 		{
-			//LeftTurret
-			GameObject newBullet1 = Instantiate(bullet);
-			SetupBullet(newBullet1, "LeftTurret");
-
-			//RightTurret
-			GameObject newBullet2 = Instantiate(bullet);
-			SetupBullet(newBullet2, "RightTurret");
+			for (int i = 1; i <= 2; i++)
+			{
+				GameObject newBullet = Instantiate(bullet);
+				SetupBullet(newBullet, i / (3.0f));
+			}
 
 			readyToShoot = false;
 		}
@@ -71,12 +69,15 @@ public class FriendlyPlaneController : MonoBehaviour {
 	}
 
 	//Setup the position and velocity of the new bullet
-	void SetupBullet(GameObject aBullet, string turret)
+	void SetupBullet(GameObject aBullet, float location_multiplier)
 	{
+		float height = GetComponent<Renderer>().bounds.size.y;
+
 		aBullet.transform.position =
-			new Vector3(transform.Find(turret).transform.position.x,
-			transform.Find(turret).transform.position.y,
-			transform.Find(turret).transform.position.z);
+			new Vector3(transform.position.x,
+			(transform.position.y + height / 2 - height * location_multiplier),
+			transform.position.z);
+
 		aBullet.SetActive(true);
 		aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
 

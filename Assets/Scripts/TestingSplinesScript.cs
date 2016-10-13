@@ -13,16 +13,6 @@ public class TestingSplinesScript : MonoBehaviour {
 
 	private List<Vector2> pointList;
 
-	// Use this for initialization
-	/*void Start () {
-		pointList = new List<Vector2>();
-		pointList.Add(v1);
-		pointList.Add(v2);
-		pointList.Add(v3);
-		pointList.Add(v4);
-
-		//Draw();
-	}*/
 
 	// Update is called once per frame
 	void Update() {
@@ -44,19 +34,8 @@ public class TestingSplinesScript : MonoBehaviour {
 			list.Add(newBall);
 		}
 
-		/*list.ForEach(delegate (GameObject obj)
-		{
-			obj.SetActive(false);
-			list.Remove(obj);
-		});*/
-
 		StartCoroutine(Wait(0.1f, list));
 
-		/*foreach (GameObject obj in list)
-		{
-			obj.SetActive(false);
-			Destroy(obj);
-		}*/
 	}
 
 	IEnumerator Wait(float time, List<GameObject> list)

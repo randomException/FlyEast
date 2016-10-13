@@ -12,6 +12,7 @@ public class CameraController : MonoBehaviour
 	void Start()
 	{
 		offset_y = transform.position.y - player.transform.position.y;
+		//Camera.main.orthographicSize
 	}
 
 	// Update is called once per frame

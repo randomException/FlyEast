@@ -13,8 +13,11 @@ public class PlayerController : MonoBehaviour {
 	public GameObject enemyPlane;           //Instance of enemy planes. Will be used to create new enemies 
 	public GameObject friendlyPlane;        //Instance of friendly planes. Will be used to create new friendlies
 	public float reloadTime;				//Tells the time between bullets are fired
-	public float HP;						//Player's health points
-	public Text gameOverText;				//UI text which appears when player dies
+	public float HP;                        //Player's health points
+	private float maxHP;					//Indicates max HP that player can have
+	public Text gameOverText;               //UI text which appears when player dies
+	public Image HealthBar;                 //UI element which shows the amount of HP
+	public GameObject Background;			//Backgroung gameobject
 
 	private float reloadTimeRemaining;		//How much time is left before next shooting
 	private bool readyToShoot;              //Tells if player is ready to shoot new bullets
@@ -34,6 +37,7 @@ public class PlayerController : MonoBehaviour {
 		gameOverText.text = "";
 		hitDamage = -5;
 		reviveHealth = 25;
+		maxHP = HP;
 
 		bulletPerShooting = 2;
 		reloadTimeRemaining = reloadTime;
@@ -48,6 +52,9 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//Move the background
+		Background.transform.position = new Vector3(Background.transform.position.x - Time.deltaTime * 5, Background.transform.position.y, Background.transform.position.z);
+
 		//reset velocity to zero
 		GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 
@@ -232,6 +239,7 @@ public class PlayerController : MonoBehaviour {
 
 		//4th Group
 		//TODO groups 4-n
+		//LEVEL TIME == 3min
 	}
 	
 	//Ends the game with notifications
@@ -303,10 +311,14 @@ public class PlayerController : MonoBehaviour {
 	void ChangeHealth(int amount)
 	{
 		HP += amount;
-		if(HP <= 0)
+		if (HP <= 0)
 		{
 			gameOver();
 		}
+		else if (HP > maxHP)
+			HP = maxHP;
+
+		HealthBar.fillAmount = HP / maxHP;
 	}
 
 	//Increase super power. If full -> super power is ready
