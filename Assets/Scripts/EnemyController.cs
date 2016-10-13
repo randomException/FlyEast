@@ -3,13 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class EnemyController : MonoBehaviour {
+	public string type;							//Tells which kindof enemy this is (basic, tougher, big)
 
 	public float reloadTime;                    //Tells the time between bullets are fired
 	public GameObject bullet;                   //Instance of enemies' bullets. Will be used to create new bullets 
 	public float bulletSpeed;                   //Bullet movement speed
 	public float HP;                            //Enemy's health points
 
-	private bool powerUp;							//indeicates if enemy has powerup to drop after dead
+	private bool powerUp;                       //indicates if enemy has powerup to drop after dead
+	private string powerUpItem;					//indicated wjich powerup enemy drops when dead
 
 	public string movementMode;					//The way enemy moves (straight, sin, arc, etc.)
 	public float movementAngle;					//??? - Joaquin
@@ -17,7 +19,7 @@ public class EnemyController : MonoBehaviour {
 
 	private bool readyToShoot;                  //Tells if enemy is ready to shoot a new bullet
 	private float reloadTimeRemaining;          //How much time is left before next shooting
-	private float hitDamage;					//How much enemy loses HP when it hits with player's bullet
+	public float hitDamage;						//How much enemy loses HP when it hits with player's bullet
 	
 	private int lifeTime=0;                     //Time that the plane has been living
 	private float lifeTimeSeconds;              //Time that the plane has been living in seconds
@@ -29,13 +31,12 @@ public class EnemyController : MonoBehaviour {
 	private bool hasSpline = false;             //Tells if object has a spline object
 
 	public GameObject player;                   //Player game object
-	public GameObject powerUpGameObject;        //Instance of power up gameobject
+	public GameObject powerUpHealth;			//Instance of health power up gameobject
 
 	// Use this for initialization
 	void Start () {
 		readyToShoot = true;
 		reloadTimeRemaining = reloadTime;
-		hitDamage = 10;
 		lifeTimeSeconds = 0;
 
 		ofb = gameObject.AddComponent<OutOfBounds>();
@@ -99,7 +100,7 @@ public class EnemyController : MonoBehaviour {
 			GameObject newBullet = Instantiate(bullet);
 			SetupBullet(newBullet);
 
-			 readyToShoot = false;
+			readyToShoot = false;
 		}
 
 	}
@@ -107,15 +108,35 @@ public class EnemyController : MonoBehaviour {
 	//Setup the position and velocity of the new bullet
 	void SetupBullet(GameObject aBullet)
 	{
-		aBullet.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-		aBullet.SetActive(true);
+		if (type.Equals("Basic"))
+		{
+			aBullet.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+			aBullet.SetActive(true);
 
-		float angle = Random.Range(-180, 180);
+			Vector2 toPlayer = player.transform.position - transform.position;
+			float x = toPlayer.x;
+			float y = toPlayer.y;
 
-		float x_speed = Mathf.Cos(angle) * bulletSpeed;
-		float y_speed = Mathf.Sin(angle) * bulletSpeed;
+			//ORIGINAL LINES
+			//float angle = Random.Range(-180, 180);
+			//float x_speed = Mathf.Cos(angle) * bulletSpeed;
+			//float y_speed = Mathf.Sin(angle) * bulletSpeed;
 
-		aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(x_speed, y_speed);
+			float x_speed = (x / y) / (x / y + y / x) * bulletSpeed;
+			if (x < 0)
+				x_speed = -x_speed;
+
+			float y_speed = (y / x) / (x / y + y / x) * bulletSpeed;
+			if (y < 0)
+				y_speed = -y_speed;
+
+			aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(x_speed, y_speed);
+		}
+
+		else if (type.Equals("Tougher"))
+		{
+			return;
+		}
 
 	}
 
@@ -160,16 +181,20 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	//set the powerUp variable to true
-	public void setPowerUp()
+	public void setPowerUp(string powerItem)
 	{
 		powerUp = true;
+		powerUpItem = powerItem;
 	}
 
 	//drop a powerUp to dead location
 	void DropPowerUp()
 	{
-		GameObject newPowerUp = Instantiate(powerUpGameObject);
-		newPowerUp.SetActive(true);
-		newPowerUp.transform.position = transform.position;
+		if (powerUpItem.Equals("health"))
+		{
+			GameObject newPowerUp = Instantiate(powerUpHealth);
+			newPowerUp.SetActive(true);
+			newPowerUp.transform.position = transform.position;
+		}
 	}
 }
