@@ -31,7 +31,8 @@ public class EnemyController : MonoBehaviour {
 	private bool hasSpline = false;             //Tells if object has a spline object
 
 	public GameObject player;                   //Player game object
-	public GameObject powerUpHealth;			//Instance of health power up gameobject
+	public GameObject HealthPU;                 //Instance of health power up gameobject
+	public GameObject BackupPU;                 //Instance of backup power up gameobject
 
 	// Use this for initialization
 	void Start () {
@@ -192,7 +193,13 @@ public class EnemyController : MonoBehaviour {
 	{
 		if (powerUpItem.Equals("health"))
 		{
-			GameObject newPowerUp = Instantiate(powerUpHealth);
+			GameObject newPowerUp = Instantiate(HealthPU);
+			newPowerUp.SetActive(true);
+			newPowerUp.transform.position = transform.position;
+		}
+		else if (powerUpItem.Equals("friend"))
+		{
+			GameObject newPowerUp = Instantiate(BackupPU);
 			newPowerUp.SetActive(true);
 			newPowerUp.transform.position = transform.position;
 		}

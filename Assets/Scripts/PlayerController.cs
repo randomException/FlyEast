@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour {
 	public float reloadTime;				//Tells the time between bullets are fired
 	public float HP;                        //Player's health points
 	private float maxHP;					//Indicates max HP that player can have
-	public Text gameOverText;               //UI text which appears when player dies
+	public Text gameTextInfo;               //UI text which appears when player dies
 	public Image HealthBar;                 //UI element which shows the amount of HP
 	public GameObject Background;			//Backgroung gameobject
 
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		gameOverText.text = "";
+		gameTextInfo.text = "";
 		hitDamage = -5;
 		reviveHealth = 25;
 		maxHP = HP;
@@ -47,7 +47,11 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//Move the background
-		Background.transform.position = new Vector3(Background.transform.position.x - Time.deltaTime * 5, Background.transform.position.y, Background.transform.position.z);
+		if (Background.transform.position.x > -355)
+			Background.transform.position = new Vector3(Background.transform.position.x - Time.deltaTime * 5, Background.transform.position.y, Background.transform.position.z);
+		//WIN THE GAME!
+		else
+			WinTheGame();
 
 		//reset velocity to zero
 		GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
@@ -131,10 +135,18 @@ public class PlayerController : MonoBehaviour {
 	//Ends the game with notifications
 	void gameOver()
 	{
-		gameOverText.text = "Game Over!";
+		gameTextInfo.text = "Game Over!";
 
 		StartCoroutine(WaitForRestart());
 
+	}
+
+	//Activated when player wins
+	void WinTheGame()
+	{
+		gameTextInfo.text = "You Win!";
+
+		StartCoroutine(WaitForRestart());
 	}
 
 	//When died wait 3s before restarting the level
@@ -157,11 +169,18 @@ public class PlayerController : MonoBehaviour {
 		{
 			ChangeHealth(hitDamage);
 		}
-		else if (other.gameObject.tag == "PowerUp")
+		else if (other.gameObject.tag == "HealthPU")
 		{
 			ChangeHealth(reviveHealth);
 			Destroy(other.gameObject);
 		}
+		else if (other.gameObject.tag == "BackupPU")
+		{
+			CreateNewFriend(new Vector2(transform.position.x - 1, transform.position.y - 2.5f), true);
+			CreateNewFriend(new Vector2(transform.position.x - 1, transform.position.y + 2.5f), true);
+			Destroy(other.gameObject);
+		}
+
 	}
 
 	//Increase or decrease player's health points
@@ -194,18 +213,24 @@ public class PlayerController : MonoBehaviour {
 		superPower = 0;
 		superPowerReady = false;
 
-		CreateNewFriend(new Vector2(-50, -10));
-		CreateNewFriend(new Vector2(-40, -5));
-		CreateNewFriend(new Vector2(-30, 0));
-		CreateNewFriend(new Vector2(-40, 5));
-		CreateNewFriend(new Vector2(-50, 10));
+		CreateNewFriend(new Vector2(-50, -10), false);
+		CreateNewFriend(new Vector2(-40, -5), false);
+		CreateNewFriend(new Vector2(-30, 0), false);
+		CreateNewFriend(new Vector2(-40, 5), false);
+		CreateNewFriend(new Vector2(-50, 10), false);
 	}
 
 	//create new friendly planes
-	void CreateNewFriend(Vector2 pos)
+	void CreateNewFriend(Vector2 pos, bool child)
 	{
 		GameObject newFriendly = Instantiate(friendlyPlane);
 		newFriendly.transform.position = pos;
 		newFriendly.SetActive(true);
+
+		if (child)
+		{
+			newFriendly.transform.parent = transform;
+			newFriendly.GetComponent<FriendlyPlaneController>().setType("stay");
+		}
 	}
 }

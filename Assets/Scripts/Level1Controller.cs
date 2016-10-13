@@ -30,7 +30,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(7, -20));
 		list.Add(new Vector2(-11, -30));
 		list.Add(new Vector2(-30, 10));
-		CreateNewEnemy(new Vector2(27, 6), -Mathf.PI, "none", list);
+		CreateNewEnemy(new Vector2(27, 6), -Mathf.PI, "friend", list);
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(30, -6));

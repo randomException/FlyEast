@@ -5,6 +5,9 @@ public class FriendlyPlaneController : MonoBehaviour {
 
 	public float speed;                     //Movement speed
 	public float reloadTime;                //Tells the time between bullets are fired
+	public string type;                     //Tells if friend will just move past the camera or stays with player ("fly" vs "stay")
+	public float HP;                        //Friend's health points
+	private int hitDamage;                  //How many HPs friend is going to lose when hitted by enemy planes or enemy bullets
 
 	public GameObject bullet;               //Instance of enemies' bullets. Will be used to create new bullets 
 	public float bulletSpeed;               //Bullet movement speed
@@ -18,14 +21,21 @@ public class FriendlyPlaneController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		GetComponent<Rigidbody2D>().velocity = new Vector2(speed, 0);
-
 		ofb = gameObject.AddComponent<OutOfBounds>();
 		inPlay = false;
+		hitDamage = -20;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (type.Equals("stay"))
+			GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+		else
+		{
+			GetComponent<Rigidbody2D>().velocity = new Vector2(speed, 0);
+		}
+
 		Shoot();
 
 		if (!inPlay)
@@ -33,7 +43,9 @@ public class FriendlyPlaneController : MonoBehaviour {
 			if (ofb.IsInCameraArea(transform.position.x, transform.position.y))
 				inPlay = true;
 		}
-		if (inPlay)
+
+		//friends who statys next to player can't be out of bounds
+		if (inPlay && type.Equals("fly"))
 		{
 			if (!ofb.IsInPlayArea(transform.position.x, transform.position.y))
 				Destroy(gameObject);
@@ -81,5 +93,35 @@ public class FriendlyPlaneController : MonoBehaviour {
 		aBullet.SetActive(true);
 		aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
 
+	}
+
+	public void setType(string friendType)
+	{
+		type = friendType;
+	}
+
+	//Collision handler
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		//Player hits enemy bullets
+		if (other.gameObject.tag == "Bullet")
+		{
+			ChangeHealth(hitDamage);
+			Destroy(other.gameObject);
+		}
+		else if (other.gameObject.tag == "Enemy")
+		{
+			ChangeHealth(hitDamage);
+		}
+	}
+
+	void ChangeHealth(int damage)
+	{
+		HP += hitDamage;
+
+		if(HP <= 0)
+		{
+			Destroy(gameObject);
+		}
 	}
 }
