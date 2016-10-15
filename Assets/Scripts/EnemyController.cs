@@ -159,6 +159,7 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
+	//CAN BE REMOVED AFTER SPLINES WORKS 100% CORRECTLY
 	float getRotationAngle(){
 		switch (movementMode){
 		case "straight":

@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour {
 		//Move the background
 		if (Background.transform.position.x > -355)
 			Background.transform.position = new Vector3(Background.transform.position.x - Time.deltaTime * 5, Background.transform.position.y, Background.transform.position.z);
-		//WIN THE GAME!
+		//WIN THE GAME if backgroung has moved to location '.355'
 		else
 			WinTheGame();
 
@@ -108,6 +108,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			for (int i = 1; i <= bulletPerShooting; i++)
 			{
+				GetComponent<AudioSource>().Play();
 				GameObject newBullet = Instantiate(bullet);
 				SetupBullet(newBullet, i / (bulletPerShooting * 1.0f + 1.0f));
 			}
@@ -171,11 +172,13 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (other.gameObject.tag == "HealthPU")
 		{
+			transform.Find("PowerupSound").GetComponent<AudioSource>().Play();
 			ChangeHealth(reviveHealth);
 			Destroy(other.gameObject);
 		}
 		else if (other.gameObject.tag == "BackupPU")
 		{
+			transform.Find("PowerupSound").GetComponent<AudioSource>().Play();
 			CreateNewFriend(new Vector2(transform.position.x - 1, transform.position.y - 2.5f), true);
 			CreateNewFriend(new Vector2(transform.position.x - 1, transform.position.y + 2.5f), true);
 			Destroy(other.gameObject);
@@ -189,6 +192,7 @@ public class PlayerController : MonoBehaviour {
 		HP += amount;
 		if (HP <= 0)
 		{
+			GetComponent<AudioSource>().Play();
 			gameOver();
 		}
 		else if (HP > maxHP)
