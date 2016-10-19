@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour {
 	private float maxHP;					//Indicates max HP that player can have
 	public Text gameTextInfo;               //UI text which appears when player dies
 	public Image HealthBar;                 //UI element which shows the amount of HP
+	public Image SuperPowerMeter;           //UI element which shows the amount of super power
 	public GameObject Background;			//Backgroung gameobject
 
 	private float reloadTimeRemaining;		//How much time is left before next shooting
@@ -22,11 +23,14 @@ public class PlayerController : MonoBehaviour {
 	private int bulletPerShooting;			//Tells how many bullets the layer shoots at the same time
 
 	private int hitDamage;                  //How many HPs player is going to lose when hitted by enemy planes or enemy bullets
-	private int superPower;                 //Tells how much of the super power has been filled (10 == full, 0 == empty)
+	private float superPower;               //Tells how much of the super power has been filled (10 == full, 0 == empty)
 	private bool superPowerReady;           //Tells if super power is ready to use
 	private int maxSuperPower;              //Tells how many super power points player has to have so the super power activates
 
-	private int reviveHealth;				//Telss how much player gains HP when obtained health pack
+	private int reviveHealth;               //Telss how much player gains HP when obtained health pack
+
+	private bool topFriend;                 //Tells if payer has at the moment a friendly plane on top
+	private bool belowFriend;				//Tells if payer has at the moment a friendly plane below
 
 	// Use this for initialization
 	void Start () {
@@ -41,7 +45,11 @@ public class PlayerController : MonoBehaviour {
 
 		superPower = 0;
 		superPowerReady = false;
-		maxSuperPower = 5;
+		maxSuperPower = 10;
+		SuperPowerMeter.fillAmount = 0;
+
+		topFriend = false;
+		belowFriend = false;
 	}
 	
 	// Update is called once per frame
@@ -179,11 +187,30 @@ public class PlayerController : MonoBehaviour {
 		else if (other.gameObject.tag == "BackupPU")
 		{
 			transform.Find("PowerupSound").GetComponent<AudioSource>().Play();
-			CreateNewFriend(new Vector2(transform.position.x - 1, transform.position.y - 2.5f), true);
-			CreateNewFriend(new Vector2(transform.position.x - 1, transform.position.y + 2.5f), true);
+
+			if (!topFriend)
+			{
+				CreateNewFriend(new Vector2(transform.position.x - 1, transform.position.y - 2.5f), true, "top");
+				topFriend = true;
+			}
+			if (!belowFriend)
+			{
+				CreateNewFriend(new Vector2(transform.position.x - 1, transform.position.y + 2.5f), true, "below");
+				belowFriend = true;
+			}
+			
 			Destroy(other.gameObject);
 		}
 
+	}
+
+	//The player will now know that he has not a friendly plane on following position
+	public void setFriendlyAsFalse(string pos)
+	{
+		if (pos.Equals("top"))
+			topFriend = false;
+		else
+			belowFriend = false;
 	}
 
 	//Increase or decrease player's health points
@@ -208,7 +235,9 @@ public class PlayerController : MonoBehaviour {
 		if (superPower >= maxSuperPower)
 		{
 			superPowerReady = true;
+			superPower = maxSuperPower;
 		}
+		SuperPowerMeter.fillAmount = superPower / maxSuperPower;
 	}
 
 	//Activate the super power
@@ -216,6 +245,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		superPower = 0;
 		superPowerReady = false;
+		SuperPowerMeter.fillAmount = 0;
 
 		CreateNewFriend(new Vector2(-50, -10), false);
 		CreateNewFriend(new Vector2(-40, -5), false);
@@ -225,7 +255,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//create new friendly planes
-	void CreateNewFriend(Vector2 pos, bool child)
+	void CreateNewFriend(Vector2 pos, bool child, string posToPlayer = "")
 	{
 		GameObject newFriendly = Instantiate(friendlyPlane);
 		newFriendly.transform.position = pos;
@@ -235,6 +265,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			newFriendly.transform.parent = transform;
 			newFriendly.GetComponent<FriendlyPlaneController>().setType("stay");
+			newFriendly.GetComponent<FriendlyPlaneController>().setPosition(posToPlayer);
 		}
 	}
 }

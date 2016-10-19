@@ -76,7 +76,7 @@ public class EnemyController : MonoBehaviour {
 
 		if (hasSpline)
 		{
-			Vector2 newLocation = spline.NewLocation(lifeTimeSeconds / 10);
+			Vector2 newLocation = spline.NewLocation(lifeTimeSeconds / 5);
 			transform.position = new Vector3(newLocation.x, newLocation.y, 0);
 		}
 	}

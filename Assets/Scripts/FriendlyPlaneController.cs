@@ -6,6 +6,7 @@ public class FriendlyPlaneController : MonoBehaviour {
 	public float speed;                     //Movement speed
 	public float reloadTime;                //Tells the time between bullets are fired
 	public string type;                     //Tells if friend will just move past the camera or stays with player ("fly" vs "stay")
+	private string pos;						//Telss if friend is below or on top of player ("top" vs "below") (when type == "stay")
 	public float HP;                        //Friend's health points
 	private int hitDamage;                  //How many HPs friend is going to lose when hitted by enemy planes or enemy bullets
 
@@ -18,6 +19,8 @@ public class FriendlyPlaneController : MonoBehaviour {
 
 	private OutOfBounds ofb;                //'Out of bounds' class instance
 	private bool inPlay;                    //Tells if friend has entered game area (== camera area)
+
+	public GameObject player;				//Player gameobject
 
 	// Use this for initialization
 	void Start () {
@@ -100,6 +103,11 @@ public class FriendlyPlaneController : MonoBehaviour {
 		type = friendType;
 	}
 
+	public void setPosition(string friendPos)
+	{
+		pos = friendPos;
+	}
+
 	//Collision handler
 	void OnTriggerEnter2D(Collider2D other)
 	{
@@ -119,9 +127,14 @@ public class FriendlyPlaneController : MonoBehaviour {
 	{
 		HP += hitDamage;
 
-		if(HP <= 0)
+		//Only friend that stays with player can die
+		if (type.Equals("stay"))
 		{
-			Destroy(gameObject);
+			if (HP <= 0)
+			{
+				player.GetComponent<PlayerController>().setFriendlyAsFalse(pos);
+				Destroy(gameObject);
+			}
 		}
 	}
 }

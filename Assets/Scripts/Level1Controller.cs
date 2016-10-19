@@ -30,21 +30,21 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(7, -20));
 		list.Add(new Vector2(-11, -30));
 		list.Add(new Vector2(-30, 10));
-		CreateNewEnemy(new Vector2(27, 6), -Mathf.PI, "friend", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "friend", list);
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(30, -6));
 		list.Add(new Vector2(7, 16));
 		list.Add(new Vector2(-11, 20));
 		list.Add(new Vector2(-30, -10));
-		CreateNewEnemy(new Vector2(27, 1), -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(14, -16));
 		list.Add(new Vector2(1, 18));
 		list.Add(new Vector2(-11, -72));
 		list.Add(new Vector2(-30, -1));
-		CreateNewEnemy(new Vector2(27, -4), -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
 
 		yield return new WaitForSeconds(4);
 		//2nd group
@@ -53,21 +53,21 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(0, -12));
 		list.Add(new Vector2(-14, -14));
 		list.Add(new Vector2(-25, 18));
-		CreateNewEnemy(new Vector2(27, -2), -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(20, -17));
 		list.Add(new Vector2(0, -10));
 		list.Add(new Vector2(-14, 135));
 		list.Add(new Vector2(-23, -18));
-		CreateNewEnemy(new Vector2(27, -7), -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(30, 4));
 		list.Add(new Vector2(23, -13));
 		list.Add(new Vector2(-144, -50));
 		list.Add(new Vector2(-30, -2));
-		CreateNewEnemy(new Vector2(27, -11), -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
 
 		//Direct line
 		yield return new WaitForSeconds(5f);
@@ -82,7 +82,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(8, 58));
 		list.Add(new Vector2(-97, -135));
 		list.Add(new Vector2(-32, -1));
-		CreateNewEnemy(new Vector2(20, -15), -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
 
 		//Spline for new enemy (no testSpline saved)
 		list = new List<Vector2>();
@@ -99,7 +99,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(8, 58));
 		list.Add(new Vector2(-97, -135));
 		list.Add(new Vector2(-32, -1));
-		CreateNewEnemy(new Vector2(20, -15), -Mathf.PI, "health", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "health", list);
 
 		yield return new WaitForSeconds(0.5f);
 		list = new List<Vector2>();
@@ -107,7 +107,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(8, 58));
 		list.Add(new Vector2(-97, -135));
 		list.Add(new Vector2(-32, -1));
-		CreateNewEnemy(new Vector2(20, -15), -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
 
 		yield return new WaitForSeconds(0.5f);
 		list = new List<Vector2>();
@@ -115,11 +115,241 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(8, 58));
 		list.Add(new Vector2(-97, -135));
 		list.Add(new Vector2(-32, -1));
-		CreateNewEnemy(new Vector2(20, -15), -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		
+		//REUSE
 
-		//4th Group
-		//TODO groups 4-n
-		//LEVEL TIME == 3min
+		yield return new WaitForSeconds(2);
+		//1st group
+		list = new List<Vector2>();
+		list.Add(new Vector2(30, 0));
+		list.Add(new Vector2(7, -20));
+		list.Add(new Vector2(-11, -30));
+		list.Add(new Vector2(-30, 10));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(30, -6));
+		list.Add(new Vector2(7, 16));
+		list.Add(new Vector2(-11, 20));
+		list.Add(new Vector2(-30, -10));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(14, -16));
+		list.Add(new Vector2(1, 18));
+		list.Add(new Vector2(-11, -72));
+		list.Add(new Vector2(-30, -1));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		yield return new WaitForSeconds(4);
+		//2nd group
+		list = new List<Vector2>();
+		list.Add(new Vector2(25, 18));
+		list.Add(new Vector2(0, -12));
+		list.Add(new Vector2(-14, -14));
+		list.Add(new Vector2(-25, 18));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(20, -17));
+		list.Add(new Vector2(0, -10));
+		list.Add(new Vector2(-14, 135));
+		list.Add(new Vector2(-23, -18));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(30, 4));
+		list.Add(new Vector2(23, -13));
+		list.Add(new Vector2(-144, -50));
+		list.Add(new Vector2(-30, -2));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		//4th group
+		list = new List<Vector2>();
+		list.Add(new Vector2(29, 18));
+		list.Add(new Vector2(0, -76));
+		list.Add(new Vector2(-21, 337));
+		list.Add(new Vector2(-22, -17));
+		CreateNewEnemy(list[0], -Mathf.PI, "friend", list);
+		
+		list = new List<Vector2>();
+		list.Add(new Vector2(20, -17));
+		list.Add(new Vector2(0, -10));
+		list.Add(new Vector2(-14, 135));
+		list.Add(new Vector2(-23, 11));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(31, 4));
+		list.Add(new Vector2(23, -13));
+		list.Add(new Vector2(-144, -50));
+		list.Add(new Vector2(-30, -2));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+
+		yield return new WaitForSeconds(2);
+		//1st group
+		list = new List<Vector2>();
+		list.Add(new Vector2(30, 0));
+		list.Add(new Vector2(7, -20));
+		list.Add(new Vector2(-11, -30));
+		list.Add(new Vector2(-30, 10));
+		CreateNewEnemy(list[0], -Mathf.PI, "friend", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(30, -6));
+		list.Add(new Vector2(7, 16));
+		list.Add(new Vector2(-11, 20));
+		list.Add(new Vector2(-30, -10));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(14, -16));
+		list.Add(new Vector2(1, 18));
+		list.Add(new Vector2(-11, -72));
+		list.Add(new Vector2(-30, -1));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		yield return new WaitForSeconds(4);
+		//2nd group
+		list = new List<Vector2>();
+		list.Add(new Vector2(25, 18));
+		list.Add(new Vector2(0, -12));
+		list.Add(new Vector2(-14, -14));
+		list.Add(new Vector2(-25, 18));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(20, -17));
+		list.Add(new Vector2(0, -10));
+		list.Add(new Vector2(-14, 135));
+		list.Add(new Vector2(-23, -18));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(30, 4));
+		list.Add(new Vector2(23, -13));
+		list.Add(new Vector2(-144, -50));
+		list.Add(new Vector2(-30, -2));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		//Direct line
+		yield return new WaitForSeconds(5f);
+		CreateNewEnemy(new Vector2(19, 30), -Mathf.PI * 3 / 4, "none");
+		CreateNewEnemy(new Vector2(25, 30), -Mathf.PI * 3 / 4, "none");
+		CreateNewEnemy(new Vector2(31, 30), -Mathf.PI * 3 / 4, "none");
+
+		//3rd group (4 planes same path)
+		yield return new WaitForSeconds(3);
+		list = new List<Vector2>();
+		list.Add(new Vector2(20, -15));
+		list.Add(new Vector2(8, 58));
+		list.Add(new Vector2(-97, -135));
+		list.Add(new Vector2(-32, -1));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		//Spline for new enemy (no testSpline saved)
+		list = new List<Vector2>();
+		list.Add(new Vector2(30, 0));
+		list.Add(new Vector2(7, -20));
+		list.Add(new Vector2(-11, -30));
+		list.Add(new Vector2(-30, -50));
+
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		yield return new WaitForSeconds(3f);
+		list = new List<Vector2>();
+		list.Add(new Vector2(20, -15));
+		list.Add(new Vector2(8, 58));
+		list.Add(new Vector2(-97, -135));
+		list.Add(new Vector2(-32, -1));
+		CreateNewEnemy(list[0], -Mathf.PI, "health", list);
+
+		yield return new WaitForSeconds(0.5f);
+		list = new List<Vector2>();
+		list.Add(new Vector2(20, -15));
+		list.Add(new Vector2(8, 58));
+		list.Add(new Vector2(-97, -135));
+		list.Add(new Vector2(-32, -1));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		yield return new WaitForSeconds(0.5f);
+		list = new List<Vector2>();
+		list.Add(new Vector2(20, -15));
+		list.Add(new Vector2(8, 58));
+		list.Add(new Vector2(-97, -135));
+		list.Add(new Vector2(-32, -1));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+
+		yield return new WaitForSeconds(2);
+		//1st group
+		list = new List<Vector2>();
+		list.Add(new Vector2(30, 0));
+		list.Add(new Vector2(7, -20));
+		list.Add(new Vector2(-11, -30));
+		list.Add(new Vector2(-30, 10));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(30, -6));
+		list.Add(new Vector2(7, 16));
+		list.Add(new Vector2(-11, 20));
+		list.Add(new Vector2(-30, -10));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(14, -16));
+		list.Add(new Vector2(1, 18));
+		list.Add(new Vector2(-11, -72));
+		list.Add(new Vector2(-30, -1));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		yield return new WaitForSeconds(4);
+		//2nd group
+		list = new List<Vector2>();
+		list.Add(new Vector2(25, 18));
+		list.Add(new Vector2(0, -12));
+		list.Add(new Vector2(-14, -14));
+		list.Add(new Vector2(-25, 18));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(20, -17));
+		list.Add(new Vector2(0, -10));
+		list.Add(new Vector2(-14, 135));
+		list.Add(new Vector2(-23, -18));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(30, 4));
+		list.Add(new Vector2(23, -13));
+		list.Add(new Vector2(-144, -50));
+		list.Add(new Vector2(-30, -2));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		//4th group
+		list = new List<Vector2>();
+		list.Add(new Vector2(29, 18));
+		list.Add(new Vector2(0, -76));
+		list.Add(new Vector2(-21, 337));
+		list.Add(new Vector2(-22, -17));
+		CreateNewEnemy(list[0], -Mathf.PI, "friend", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(20, -17));
+		list.Add(new Vector2(0, -10));
+		list.Add(new Vector2(-14, 135));
+		list.Add(new Vector2(-23, 11));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+
+		list = new List<Vector2>();
+		list.Add(new Vector2(31, 4));
+		list.Add(new Vector2(23, -13));
+		list.Add(new Vector2(-144, -50));
+		list.Add(new Vector2(-30, -2));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
 	}
 
 	//Creates a new enemy to the given postition and directions
