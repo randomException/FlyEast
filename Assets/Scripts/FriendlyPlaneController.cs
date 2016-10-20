@@ -101,6 +101,7 @@ public class FriendlyPlaneController : MonoBehaviour {
 	public void setType(string friendType)
 	{
 		type = friendType;
+		reloadTime *= 2;
 	}
 
 	public void setPosition(string friendPos)

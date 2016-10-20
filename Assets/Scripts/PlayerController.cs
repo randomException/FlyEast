@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour {
 
 		superPower = 0;
 		superPowerReady = false;
-		maxSuperPower = 10;
+		maxSuperPower = 20;
 		SuperPowerMeter.fillAmount = 0;
 
 		topFriend = false;
@@ -162,7 +162,7 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator WaitForRestart()
 	{
 		yield return new WaitForSeconds(3);
-		SceneManager.LoadScene("Main");
+		SceneManager.LoadScene("Menu");
 	}
 
 	//Collision handler
