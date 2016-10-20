@@ -12,7 +12,7 @@ public class PowerUpController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		timeToLive = 5;
+		timeToLive = 8;
 		timeAsInvisible = 0.1f;
 		blinkRate = 2.5f;
 

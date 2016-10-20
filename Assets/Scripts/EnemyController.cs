@@ -33,6 +33,7 @@ public class EnemyController : MonoBehaviour {
 	public GameObject player;                   //Player game object
 	public GameObject HealthPU;                 //Instance of health power up gameobject
 	public GameObject BackupPU;                 //Instance of backup power up gameobject
+	public GameObject BulletPU;                 //Instance of bullet power up gameobject
 
 	// Use this for initialization
 	void Start () {
@@ -49,6 +50,9 @@ public class EnemyController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		transform.Find("PowerUpCircle").transform.Rotate(new Vector3(0, 0, -200 * Time.deltaTime), Space.Self);
+
 		//pendant: replace by deltatime.
 		lifeTime++;
 		lifeTimeSeconds += Time.deltaTime;
@@ -201,6 +205,12 @@ public class EnemyController : MonoBehaviour {
 		else if (powerUpItem.Equals("friend"))
 		{
 			GameObject newPowerUp = Instantiate(BackupPU);
+			newPowerUp.SetActive(true);
+			newPowerUp.transform.position = transform.position;
+		}
+		else if (powerUpItem.Equals("bullet"))
+		{
+			GameObject newPowerUp = Instantiate(BulletPU);
 			newPowerUp.SetActive(true);
 			newPowerUp.transform.position = transform.position;
 		}

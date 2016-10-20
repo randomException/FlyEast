@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 public class Level1Controller : MonoBehaviour {
 
-	public float enemy_speed;               //Enemies movement speed
-	public GameObject enemyPlane;           //Instance of enemy planes. Will be used to create new enemies 
+	public float enemy_speed;					 //Enemies movement speed
+	public GameObject enemyPlane;                //Instance of enemy planes. Will be used to create new enemies 
+	public GameObject enemyPlaneTough;           //Instance of tough enemy planes. Will be used to create new enemies 
 
 	private EnemyController enemyController;    //EnemyController script
 
@@ -140,7 +141,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(1, 18));
 		list.Add(new Vector2(-11, -72));
 		list.Add(new Vector2(-30, -1));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "bullet", list);
 
 		yield return new WaitForSeconds(3);							// 0 min 20.0 s
 		//2nd group
@@ -171,7 +172,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(0, -76));
 		list.Add(new Vector2(-21, 337));
 		list.Add(new Vector2(-22, -17));
-		CreateNewEnemy(list[0], -Mathf.PI, "friend", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
 		
 		list = new List<Vector2>();
 		list.Add(new Vector2(20, -17));
@@ -304,7 +305,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(1, 18));
 		list.Add(new Vector2(-11, -72));
 		list.Add(new Vector2(-30, -1));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "bullet", list);
 
 		yield return new WaitForSeconds(3);						// 0 min 43.0 s
 		//2nd group
@@ -453,7 +454,7 @@ public class Level1Controller : MonoBehaviour {
 		//REUSE
 
 		yield return new WaitForSeconds(2);                        // 1 min 3.0 s
-																   //1st group
+		//1st group
 		list = new List<Vector2>();
 		list.Add(new Vector2(30, 0));
 		list.Add(new Vector2(7, -20));
@@ -682,24 +683,10 @@ public class Level1Controller : MonoBehaviour {
 		//3rd group (4 planes almost same path)
 		yield return new WaitForSeconds(3);                        // 1 min 26.0 s
 		list = new List<Vector2>();
-		list.Add(new Vector2(20, -15));
-		list.Add(new Vector2(8, 58));
-		list.Add(new Vector2(-97, -135));
-		list.Add(new Vector2(-32, -1));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
-		
-		list = new List<Vector2>();
-		list.Add(new Vector2(20, -10));
-		list.Add(new Vector2(8, 63));
-		list.Add(new Vector2(-97, -130));
-		list.Add(new Vector2(-32, 4));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
-		
-		list = new List<Vector2>();
-		list.Add(new Vector2(20, -5));
-		list.Add(new Vector2(8, 68));
-		list.Add(new Vector2(-97, -125));
-		list.Add(new Vector2(-32, 9));
+		list.Add(new Vector2(20, -25));
+		list.Add(new Vector2(8, 48));
+		list.Add(new Vector2(-97, -145));
+		list.Add(new Vector2(-32, -11));
 		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
 		
 		list = new List<Vector2>();
@@ -707,6 +694,20 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(8, 53));
 		list.Add(new Vector2(-97, -140));
 		list.Add(new Vector2(-32, -6));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		
+		list = new List<Vector2>();
+		list.Add(new Vector2(20, -15));
+		list.Add(new Vector2(8, 58));
+		list.Add(new Vector2(-97, -135));
+		list.Add(new Vector2(-32, -1));
+		CreateNewEnemy(list[0], -Mathf.PI, "bullet", list);
+		
+		list = new List<Vector2>();
+		list.Add(new Vector2(20, -30));
+		list.Add(new Vector2(8, 43));
+		list.Add(new Vector2(-97, -150));
+		list.Add(new Vector2(-32, -16));
 		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
 
 		//5th group
@@ -804,7 +805,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(0, -76));
 		list.Add(new Vector2(-21, 337));
 		list.Add(new Vector2(-22, -17));
-		CreateNewEnemy(list[0], -Mathf.PI, "friend", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(20, -17));
@@ -992,7 +993,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(7, -20));
 		list.Add(new Vector2(-11, -30));
 		list.Add(new Vector2(-30, 10));
-		CreateNewEnemy(list[0], -Mathf.PI, "friend", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(30, -6));
@@ -1022,7 +1023,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(0, -10));
 		list.Add(new Vector2(-14, 135));
 		list.Add(new Vector2(-23, -18));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "bullet", list);
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(30, 4));
@@ -1121,11 +1122,11 @@ public class Level1Controller : MonoBehaviour {
 
 		//Direct lines
 		yield return new WaitForSeconds(2);                        // 2 min 15.0 s
-		CreateNewEnemy(new Vector2(15, 10), -Mathf.PI, "none");
-		CreateNewEnemy(new Vector2(20, 5), -Mathf.PI, "none");
-		CreateNewEnemy(new Vector2(25, 0), -Mathf.PI, "friend");
-		CreateNewEnemy(new Vector2(20, -5), -Mathf.PI, "none");
-		CreateNewEnemy(new Vector2(15, -10), -Mathf.PI, "none");
+		CreateNewEnemy(new Vector2(40, 10), -Mathf.PI, "none");
+		CreateNewEnemy(new Vector2(35, 5), -Mathf.PI, "none");
+		CreateNewEnemy(new Vector2(30, 0), -Mathf.PI, "friend");
+		CreateNewEnemy(new Vector2(35, -5), -Mathf.PI, "none");
+		CreateNewEnemy(new Vector2(40, -10), -Mathf.PI, "none");
 
 		//3rd group (4 planes almost same path)
 		yield return new WaitForSeconds(2);                        // 2 min 18.0 s
@@ -1189,19 +1190,24 @@ public class Level1Controller : MonoBehaviour {
 
 		//Direct lines
 		yield return new WaitForSeconds(0.5f);                        // 2 min 22.0 s
-		CreateNewEnemy(new Vector2(15, 10), -Mathf.PI, "none");
-		CreateNewEnemy(new Vector2(20, 5), -Mathf.PI, "none");
-		CreateNewEnemy(new Vector2(25, 0), -Mathf.PI, "none");
-		CreateNewEnemy(new Vector2(20, -5), -Mathf.PI, "none");
-		CreateNewEnemy(new Vector2(15, -10), -Mathf.PI, "none");
+		CreateNewEnemy(new Vector2(40, 10), -Mathf.PI, "none");
+		CreateNewEnemy(new Vector2(35, 5), -Mathf.PI, "none");
+		CreateNewEnemy(new Vector2(30, 0), -Mathf.PI, "none");
+		CreateNewEnemy(new Vector2(35, -5), -Mathf.PI, "none");
+		CreateNewEnemy(new Vector2(40, -10), -Mathf.PI, "none");
 
 	}
 
 	//Creates a new enemy to the given postition and directions
 	//Rotation is given in radians. -PI == -180 ==> moving from right to left
-	void CreateNewEnemy(Vector2 pos, float rot, string powerup, List<Vector2> list = null)
+	void CreateNewEnemy(Vector2 pos, float rot, string powerup, List<Vector2> list = null, string type = "basic")
 	{
-		GameObject newEnemy = Instantiate(enemyPlane);
+		GameObject newEnemy;
+		if (type.Equals("basic"))
+			newEnemy = Instantiate(enemyPlane);
+		else
+			newEnemy = Instantiate(enemyPlaneTough);
+
 		newEnemy.transform.position = pos;
 		newEnemy.SetActive(true);
 

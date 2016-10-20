@@ -79,21 +79,38 @@ public class PlayerController : MonoBehaviour {
 			Shoot();
 		}
 		if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
-			if (transform.position.x <= 23)
+			if (transform.position.x <= /*23*/ 18)
 				GetComponent<Rigidbody2D>().velocity = new Vector2(speed, GetComponent<Rigidbody2D>().velocity.y);
 			Shoot();
 		}
 		else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)){
-			if (transform.position.x >= -23)
+			if (transform.position.x >= /*-23*/ -18)
 				GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, GetComponent<Rigidbody2D>().velocity.y);
 			Shoot();
 		}
 
 		//Use super power with Space
-		if (Input.GetKey(KeyCode.Space) && superPowerReady)
+		if ((Input.GetKey(KeyCode.Space) || Input.GetMouseButton(1)) && superPowerReady)
 		{
 			UseSuperPower();
 		}
+
+
+		//Move and shot with mouse
+		Vector3 target = transform.position;
+		if (Input.GetMouseButton(0))
+		{
+			target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			target.z = transform.position.z;
+
+			if(target.y >= 10)
+				target.y = 10;
+			if (target.y <= -10)
+				target.y = -10;
+
+			Shoot();
+		}
+		transform.position = Vector3.MoveTowards(transform.position, target, speed * 5 * Time.deltaTime);
 
 	}
 
@@ -199,6 +216,13 @@ public class PlayerController : MonoBehaviour {
 				belowFriend = true;
 			}
 			
+			Destroy(other.gameObject);
+		}
+		else if (other.gameObject.tag == "BulletPU")
+		{
+			if(bulletPerShooting < 4)
+				bulletPerShooting += 1;
+
 			Destroy(other.gameObject);
 		}
 
