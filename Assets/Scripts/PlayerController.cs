@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
 	public float bulletSpeed;				//Players bullet movement speed
 	public GameObject bullet;				//Instance of player's bullet. Will be used to create new bullets 
 	public GameObject friendlyPlane;        //Instance of friendly planes. Will be used to create new friendlies
+	public Sprite friendlySprite;					//SPrite of friendly plane which stays with player
 	public float reloadTime;				//Tells the time between bullets are fired
 	public float HP;                        //Player's health points
 	private float maxHP;					//Indicates max HP that player can have
@@ -27,10 +28,14 @@ public class PlayerController : MonoBehaviour {
 	private bool superPowerReady;           //Tells if super power is ready to use
 	private int maxSuperPower;              //Tells how many super power points player has to have so the super power activates
 
-	private int reviveHealth;               //Telss how much player gains HP when obtained health pack
+	private int reviveHealth;               //Tells how much player gains HP when obtained health pack
 
 	private bool topFriend;                 //Tells if payer has at the moment a friendly plane on top
-	private bool belowFriend;				//Tells if payer has at the moment a friendly plane below
+	private bool belowFriend;               //Tells if payer has at the moment a friendly plane below
+
+	private Animator animator;              //Player animator
+	private float rainRate;                 //How often rain is visible and invisible
+	private float rainTimeLeft;				//When rain is going to switch type next time
 
 	// Use this for initialization
 	void Start () {
@@ -50,6 +55,10 @@ public class PlayerController : MonoBehaviour {
 
 		topFriend = false;
 		belowFriend = false;
+
+		animator = GetComponent<Animator>();
+		rainRate = 0.2f;
+		rainTimeLeft = rainRate;
 	}
 	
 	// Update is called once per frame
@@ -60,6 +69,17 @@ public class PlayerController : MonoBehaviour {
 		//WIN THE GAME if backgroung has moved to location '.355'
 		else
 			WinTheGame();
+
+		//Raining
+		if(rainTimeLeft > 0)
+		{
+			rainTimeLeft -= Time.deltaTime;
+		}
+		else
+		{
+			Background.transform.Find("rain").GetComponent<SpriteRenderer>().enabled = !Background.transform.Find("rain").GetComponent<SpriteRenderer>().enabled;
+			rainTimeLeft = rainRate;
+		}
 
 		//reset velocity to zero
 		GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
@@ -129,7 +149,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Has the turrets been reloaded now? If yes -> shoot
-		if (readyToShoot)
+		if (readyToShoot && HP > 0)
 		{
 			for (int i = 1; i <= bulletPerShooting; i++)
 			{
@@ -161,6 +181,7 @@ public class PlayerController : MonoBehaviour {
 	//Ends the game with notifications
 	void gameOver()
 	{
+		animator.SetBool("playerDies", true);
 		gameTextInfo.text = "Game Over!";
 
 		StartCoroutine(WaitForRestart());
@@ -182,14 +203,25 @@ public class PlayerController : MonoBehaviour {
 		SceneManager.LoadScene("Menu");
 	}
 
+	//Wait for t seconds and then destory 'gameObject'
+	IEnumerator DestroyObjectAfterWait(float t, GameObject gameObject)
+	{
+		yield return new WaitForSeconds(t);
+
+		Destroy(gameObject);
+	}
+
 	//Collision handler
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		//Player hits enemy bullets
 		if (other.gameObject.tag == "Bullet")
 		{
+			other.gameObject.GetComponent<Animator>().SetBool("explosion", true);
+			other.enabled = false;
+
+			StartCoroutine(DestroyObjectAfterWait(0.2f, other.gameObject));
 			ChangeHealth(hitDamage);
-			Destroy(other.gameObject);
 		}
 		else if (other.gameObject.tag == "Enemy")
 		{
@@ -290,6 +322,7 @@ public class PlayerController : MonoBehaviour {
 			newFriendly.transform.parent = transform;
 			newFriendly.GetComponent<FriendlyPlaneController>().setType("stay");
 			newFriendly.GetComponent<FriendlyPlaneController>().setPosition(posToPlayer);
+			newFriendly.GetComponent<SpriteRenderer>().sprite = friendlySprite;
 		}
 	}
 }

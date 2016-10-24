@@ -145,16 +145,39 @@ public class EnemyController : MonoBehaviour {
 
 	}
 
+	//Wait for t seconds and then destory 'gameObject'
+	IEnumerator DestroyObjectAfterWait(float t, GameObject gameObject, bool enemy=false)
+	{
+		yield return new WaitForSeconds(t);
+
+		if (enemy)
+		{
+			player.GetComponent<PlayerController>().IncreaseSuperPower();
+			if (powerUp)
+				DropPowerUp();
+		}
+
+		Destroy(gameObject);
+	}
+
 	//Collision handler
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		//Enemy hits player's bullet
 		if (other.gameObject.tag == "PlayerBullet")
 		{
+			//other.gameObject.GetComponent<Animator>().SetBool("explosion", true);
+			//other.enabled = false;
+			//StartCoroutine(DestroyObjectAfterWait(0.1f, other.gameObject));
 			Destroy(other.gameObject);
+
 			HP -= hitDamage;
 			if (HP <= 0)
 			{
+				/*GetComponent<Animator>().SetBool("dead", true);
+				GetComponent<Collider2D>().enabled = false;
+				StartCoroutine(DestroyObjectAfterWait(0.1f, other.gameObject, true));*/
+
 				player.GetComponent<PlayerController>().IncreaseSuperPower();
 				if (powerUp)
 					DropPowerUp();
