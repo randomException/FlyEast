@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour {
 	public Text gameTextInfo;               //UI text which appears when player dies
 	public Image HealthBar;                 //UI element which shows the amount of HP
 	public Image SuperPowerMeter;           //UI element which shows the amount of super power
+	public Image SuperPowerImage;           //UI image of super power
 	public GameObject Background;			//Backgroung gameobject
 
 	private float reloadTimeRemaining;		//How much time is left before next shooting
@@ -35,7 +36,14 @@ public class PlayerController : MonoBehaviour {
 
 	private Animator animator;              //Player animator
 	private float rainRate;                 //How often rain is visible and invisible
-	private float rainTimeLeft;				//When rain is going to switch type next time
+	private float rainTimeLeft;             //When rain is going to switch type next time
+
+	public Image dangerIndicator;           //Red UI Image for danger indicator (== low health)
+	private bool danger;                    //Tells if danger in on now
+	private float dangerBlinkRate;			//How often danger indicator blinks
+	private float dangerTimeLeft;			//When the indicator is going to flash next time
+	private bool dangerDarkRed;				//Tells whether next blink is dark red
+	private float dangerBlinkLimit;			//Tells the HP limit after which blink starts
 
 	// Use this for initialization
 	void Start () {
@@ -59,6 +67,12 @@ public class PlayerController : MonoBehaviour {
 		animator = GetComponent<Animator>();
 		rainRate = 0.2f;
 		rainTimeLeft = rainRate;
+
+		danger = false;
+		dangerBlinkRate = 0.3f;
+		dangerTimeLeft = dangerBlinkRate;
+		dangerDarkRed = false;
+		dangerBlinkLimit = 0.8f;
 	}
 	
 	// Update is called once per frame
@@ -79,6 +93,25 @@ public class PlayerController : MonoBehaviour {
 		{
 			Background.transform.Find("rain").GetComponent<SpriteRenderer>().enabled = !Background.transform.Find("rain").GetComponent<SpriteRenderer>().enabled;
 			rainTimeLeft = rainRate;
+		}
+
+		//Danger indicator blinking
+		if (danger)
+		{
+			if(dangerTimeLeft > 0)
+			{
+				dangerTimeLeft -= Time.deltaTime;
+			}
+			else
+			{
+				if (dangerDarkRed)
+					dangerIndicator.color = new Color(dangerIndicator.color.r, dangerIndicator.color.g, dangerIndicator.color.b, 1);
+				else
+					dangerIndicator.color = new Color(dangerIndicator.color.r, dangerIndicator.color.g, dangerIndicator.color.b, dangerBlinkLimit);
+
+				dangerTimeLeft = dangerBlinkRate;
+				dangerDarkRed = !dangerDarkRed;
+			}
 		}
 
 		//reset velocity to zero
@@ -281,6 +314,16 @@ public class PlayerController : MonoBehaviour {
 		else if (HP > maxHP)
 			HP = maxHP;
 
+		float alpha = (255 - (HP / maxHP) * 255) / 255;
+		if (alpha < dangerBlinkLimit)
+		{
+			dangerIndicator.color = new Color(dangerIndicator.color.r, dangerIndicator.color.g, dangerIndicator.color.b, alpha);
+			danger = false;
+		}
+		else
+		{
+			danger = true;
+		}
 		HealthBar.fillAmount = HP / maxHP;
 	}
 
@@ -292,8 +335,13 @@ public class PlayerController : MonoBehaviour {
 		{
 			superPowerReady = true;
 			superPower = maxSuperPower;
+			SuperPowerMeter.enabled = false;
+
+			//SuperPowerImage.GetComponent<Animator>().SetBool("MeterIsFull", true);
+			GetComponent<SuperPowerImageController>().SetFull(true);
 		}
 		SuperPowerMeter.fillAmount = superPower / maxSuperPower;
+
 	}
 
 	//Activate the super power
@@ -302,6 +350,9 @@ public class PlayerController : MonoBehaviour {
 		superPower = 0;
 		superPowerReady = false;
 		SuperPowerMeter.fillAmount = 0;
+		SuperPowerMeter.enabled = true;
+
+		GetComponent<SuperPowerImageController>().SetFull(false);
 
 		CreateNewFriend(new Vector2(-50, -10), false);
 		CreateNewFriend(new Vector2(-40, -5), false);
