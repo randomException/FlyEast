@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\FriendlyPlaneController.cs" />
      <Compile Include="Assets\Scripts\Level1Controller.cs" />
      <Compile Include="Assets\Scripts\OutOfBounds.cs" />
+     <Compile Include="Assets\Scripts\PauseGame.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\PowerUpController.cs" />
      <Compile Include="Assets\Scripts\ShowInfo.cs" />

@@ -35,6 +35,10 @@ public class EnemyController : MonoBehaviour {
 	public GameObject BackupPU;                 //Instance of backup power up gameobject
 	public GameObject BulletPU;                 //Instance of bullet power up gameobject
 
+	private bool selfDestruction;       // Tells if enemy is going to disappear after certain time limit
+	public float timeToLive;            // How long the bullet lies after self destruction set on
+	private float timeLeft;             // How much time is left before destory
+
 	// Use this for initialization
 	void Start () {
 		readyToShoot = true;
@@ -46,6 +50,8 @@ public class EnemyController : MonoBehaviour {
 
 		if(hasSpline)
 			GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+
+		timeLeft = timeToLive;
 	}
 	
 	// Update is called once per frame
@@ -82,6 +88,18 @@ public class EnemyController : MonoBehaviour {
 		{
 			Vector2 newLocation = spline.NewLocation(lifeTimeSeconds / 5);
 			transform.position = new Vector3(newLocation.x, newLocation.y, 0);
+		}
+
+		if (selfDestruction)
+		{
+			timeLeft -= Time.deltaTime;
+
+			if (timeLeft <= 0)
+			{
+				if (powerUp)
+					DropPowerUp();
+				Destroy(gameObject);
+			}
 		}
 	}
 
@@ -152,7 +170,6 @@ public class EnemyController : MonoBehaviour {
 
 		if (enemy)
 		{
-			player.GetComponent<PlayerController>().IncreaseSuperPower();
 			if (powerUp)
 				DropPowerUp();
 		}
@@ -166,22 +183,21 @@ public class EnemyController : MonoBehaviour {
 		//Enemy hits player's bullet
 		if (other.gameObject.tag == "PlayerBullet")
 		{
-			//other.gameObject.GetComponent<Animator>().SetBool("explosion", true);
-			//other.enabled = false;
-			//StartCoroutine(DestroyObjectAfterWait(0.1f, other.gameObject));
-			Destroy(other.gameObject);
+			other.gameObject.GetComponent<Animator>().SetBool("explosion", true);
+			other.enabled = false;
+			other.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+			other.gameObject.GetComponent<BulletController>().activateSelfDestruction();
 
 			HP -= hitDamage;
 			if (HP <= 0)
 			{
-				/*GetComponent<Animator>().SetBool("dead", true);
+				GetComponent<Animator>().SetBool("dead", true);
 				GetComponent<Collider2D>().enabled = false;
-				StartCoroutine(DestroyObjectAfterWait(0.1f, other.gameObject, true));*/
+				//StartCoroutine(DestroyObjectAfterWait(0.1f, other.gameObject, true));
+
+				selfDestruction = true;
 
 				player.GetComponent<PlayerController>().IncreaseSuperPower();
-				if (powerUp)
-					DropPowerUp();
-				Destroy(gameObject);
 			}
 		}
 	}

@@ -10,11 +10,10 @@ public class PlayerController : MonoBehaviour {
 	public float bulletSpeed;				//Players bullet movement speed
 	public GameObject bullet;				//Instance of player's bullet. Will be used to create new bullets 
 	public GameObject friendlyPlane;        //Instance of friendly planes. Will be used to create new friendlies
-	public Sprite friendlySprite;					//SPrite of friendly plane which stays with player
+	public Sprite friendlySprite;			//Sprite of friendly plane which stays with player
 	public float reloadTime;				//Tells the time between bullets are fired
 	public float HP;                        //Player's health points
 	private float maxHP;					//Indicates max HP that player can have
-	public Text gameTextInfo;               //UI text which appears when player dies
 	public Image HealthBar;                 //UI element which shows the amount of HP
 	public Image SuperPowerMeter;           //UI element which shows the amount of super power
 	public Image SuperPowerImage;           //UI image of super power
@@ -45,11 +44,13 @@ public class PlayerController : MonoBehaviour {
 	private bool dangerDarkRed;				//Tells whether next blink is dark red
 	private float dangerBlinkLimit;         //Tells the HP limit after which blink starts
 
-	private bool isDead;					//Tells if player is dead
+	private bool isDead;                    //Tells if player is dead
+
+	public GameObject winImage;             //Win indicator
+	public GameObject loseImage;            //Lose indicator
 
 	// Use this for initialization
 	void Start () {
-		gameTextInfo.text = "";
 		hitDamage = -5;
 		reviveHealth = 25;
 		maxHP = HP;
@@ -167,7 +168,7 @@ public class PlayerController : MonoBehaviour {
 
 			Shoot();
 		}
-		transform.position = Vector3.MoveTowards(transform.position, target, speed * 5 * Time.deltaTime);
+		transform.position = Vector3.MoveTowards(transform.position, target, speed * 10 * Time.deltaTime);
 
 		if (isDead)
 		{
@@ -224,7 +225,8 @@ public class PlayerController : MonoBehaviour {
 	{
 		animator.SetBool("playerDies", true);
 		isDead = true;
-		gameTextInfo.text = "Game Over!";
+
+		loseImage.SetActive(true);
 
 		StartCoroutine(WaitForRestart());
 
@@ -233,16 +235,16 @@ public class PlayerController : MonoBehaviour {
 	//Activated when player wins
 	void WinTheGame()
 	{
-		gameTextInfo.text = "You Win!";
+		winImage.SetActive(true);
 
 		StartCoroutine(WaitForRestart());
 	}
 
-	//When died wait 3s before restarting the level
+	//When died or won the game, wait 3s before restarting the level
 	IEnumerator WaitForRestart()
 	{
 		yield return new WaitForSeconds(3);
-		SceneManager.LoadScene("Menu");
+		SceneManager.LoadScene("MainMenu");
 	}
 
 	//Wait for t seconds and then destory 'gameObject'
@@ -384,5 +386,10 @@ public class PlayerController : MonoBehaviour {
 			newFriendly.GetComponent<FriendlyPlaneController>().setPosition(posToPlayer);
 			newFriendly.GetComponent<SpriteRenderer>().sprite = friendlySprite;
 		}
+	}
+
+	public bool IsDead()
+	{
+		return isDead;
 	}
 }
