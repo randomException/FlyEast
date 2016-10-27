@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviour {
 
 		if (isDead)
 		{
-			//TODO, drop the player
+			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, -speed);
 		}
 	}
 

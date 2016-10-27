@@ -1,15 +1,10 @@
 fileFormatVersion: 2
-guid: 3f6a8b4159af2cb43a09dcb75ba23fa8
-timeCreated: 1477572332
+guid: 10ffac9ba505e2d43869a14ed79b880c
+timeCreated: 1477571710
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: pause return_0
-    21300002: pause return_1
-    21300004: pause return_2
-    21300006: pause return_3
-    21300008: pause return_4
-    21300010: pause return_5
+    21300000: new-skill button normal_0
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -49,7 +44,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 112, y: 94, z: 52, w: 7}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -59,52 +54,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pause return_0
+      name: new-skill button normal_0
       rect:
         serializedVersion: 2
-        x: 28
-        y: 136
-        width: 36
-        height: 36
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: pause return_1
-      rect:
-        serializedVersion: 2
-        x: 87
-        y: 131
-        width: 39
-        height: 39
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: pause return_2
-      rect:
-        serializedVersion: 2
-        x: 28
-        y: 36
-        width: 36
-        height: 36
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: pause return_3
-      rect:
-        serializedVersion: 2
-        x: 88
-        y: 33
-        width: 39
-        height: 39
+        x: 113
+        y: 97
+        width: 198
+        height: 173
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
