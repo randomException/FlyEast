@@ -43,7 +43,9 @@ public class PlayerController : MonoBehaviour {
 	private float dangerBlinkRate;			//How often danger indicator blinks
 	private float dangerTimeLeft;			//When the indicator is going to flash next time
 	private bool dangerDarkRed;				//Tells whether next blink is dark red
-	private float dangerBlinkLimit;			//Tells the HP limit after which blink starts
+	private float dangerBlinkLimit;         //Tells the HP limit after which blink starts
+
+	private bool isDead;					//Tells if player is dead
 
 	// Use this for initialization
 	void Start () {
@@ -73,6 +75,8 @@ public class PlayerController : MonoBehaviour {
 		dangerTimeLeft = dangerBlinkRate;
 		dangerDarkRed = false;
 		dangerBlinkLimit = 0.8f;
+
+		isDead = false;
 	}
 	
 	// Update is called once per frame
@@ -151,7 +155,7 @@ public class PlayerController : MonoBehaviour {
 
 		//Move and shot with mouse
 		Vector3 target = transform.position;
-		if (Input.GetMouseButton(0))
+		if (Input.GetMouseButton(0) && !isDead)
 		{
 			target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			target.z = transform.position.z;
@@ -165,6 +169,10 @@ public class PlayerController : MonoBehaviour {
 		}
 		transform.position = Vector3.MoveTowards(transform.position, target, speed * 5 * Time.deltaTime);
 
+		if (isDead)
+		{
+			//TODO, drop the player
+		}
 	}
 
 	//Function for shooting
@@ -215,6 +223,7 @@ public class PlayerController : MonoBehaviour {
 	void gameOver()
 	{
 		animator.SetBool("playerDies", true);
+		isDead = true;
 		gameTextInfo.text = "Game Over!";
 
 		StartCoroutine(WaitForRestart());
