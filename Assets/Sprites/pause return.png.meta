@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 3f6a8b4159af2cb43a09dcb75ba23fa8
-timeCreated: 1477572332
+timeCreated: 1477639421
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -101,8 +101,8 @@ TextureImporter:
       name: pause return_3
       rect:
         serializedVersion: 2
-        x: 88
-        y: 33
+        x: 87
+        y: 31
         width: 39
         height: 39
       alignment: 0

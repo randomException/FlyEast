@@ -46,8 +46,17 @@ public class PlayerController : MonoBehaviour {
 
 	private bool isDead;                    //Tells if player is dead
 
+	public Canvas canvas;					//Main UI element
+
 	public GameObject winImage;             //Win indicator
 	public GameObject loseImage;            //Lose indicator
+
+	private bool isInvisible;				//Tells if player is "invisible"
+	private bool blinking;                  //Tells if player got damage and is blinking now
+	private float blinkRate;				//How often player blinks
+	private float timeLeft;                 //When the player is going to flash next time
+	private int blinkTimes;                 //How many times player blinks
+	private int blinkCount;					//Current blink count
 
 	// Use this for initialization
 	void Start () {
@@ -78,6 +87,13 @@ public class PlayerController : MonoBehaviour {
 		dangerBlinkLimit = 0.8f;
 
 		isDead = false;
+
+		isInvisible = false;
+		blinking = false;
+		blinkRate = 0.2f;
+		timeLeft = blinkRate;
+		blinkTimes = 3;
+		blinkCount = 0;
 	}
 	
 	// Update is called once per frame
@@ -85,9 +101,55 @@ public class PlayerController : MonoBehaviour {
 		//Move the background
 		if (Background.transform.position.x > -355)
 			Background.transform.position = new Vector3(Background.transform.position.x - Time.deltaTime * 5, Background.transform.position.y, Background.transform.position.z);
-		//WIN THE GAME if backgroung has moved to location '.355'
+		//WIN THE GAME if backgroung has moved to location '-355'
 		else
 			WinTheGame();
+
+		//Player blinking
+		if (blinking)
+		{
+			// if there is more blinks to come
+			if (blinkCount < blinkTimes)
+			{
+				// if player is visible
+				if (!isInvisible)
+				{
+					timeLeft -= Time.deltaTime;
+					if(timeLeft <= 0)
+					{
+						gameObject.GetComponent<SpriteRenderer>().color = new Color(
+							gameObject.GetComponent<SpriteRenderer>().color.r,
+							gameObject.GetComponent<SpriteRenderer>().color.g,
+							gameObject.GetComponent<SpriteRenderer>().color.b, 0.2f);
+
+						isInvisible = true;
+						timeLeft = blinkRate;
+					}
+				}
+				// if player is invisible
+				else
+				{
+					timeLeft -= Time.deltaTime;
+					if (timeLeft <= 0)
+					{
+						gameObject.GetComponent<SpriteRenderer>().color = new Color(
+							gameObject.GetComponent<SpriteRenderer>().color.r,
+							gameObject.GetComponent<SpriteRenderer>().color.g,
+							gameObject.GetComponent<SpriteRenderer>().color.b, 1);
+
+						isInvisible = false;
+						timeLeft = blinkRate;
+
+						blinkCount++;
+					}
+				}
+			}
+			// if all blinks has been made
+			else
+			{
+				blinking = false;
+			}
+		}
 
 		//Raining
 		if(rainTimeLeft > 0)
@@ -122,35 +184,22 @@ public class PlayerController : MonoBehaviour {
 		//reset velocity to zero
 		GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 
-		//Movement: up, down, right and left. Shoot when moving
-		//Play area: x: -23 to +23 and y: -10 to +10
-		//if player is out of play area, moving further is not allowed
-		//Move player with keys W, A, S and D
-		if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)){
-			if (transform.position.y <= 10)
-				GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, speed);
-			Shoot();
-		}
-		else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)){
-			if (transform.position.y >= -10)
-				GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, -speed);
-			Shoot();
-		}
-		if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
-			if (transform.position.x <= /*23*/ 18)
-				GetComponent<Rigidbody2D>().velocity = new Vector2(speed, GetComponent<Rigidbody2D>().velocity.y);
-			Shoot();
-		}
-		else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)){
-			if (transform.position.x >= /*-23*/ -18)
-				GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, GetComponent<Rigidbody2D>().velocity.y);
-			Shoot();
-		}
-
 		//Use super power with Space
-		if ((Input.GetKey(KeyCode.Space) || Input.GetMouseButton(1)) && superPowerReady)
+		if (Input.GetMouseButton(1) && superPowerReady)
 		{
 			UseSuperPower();
+		}
+
+		// Return to main menu with 'esc'
+		if (Input.GetKey(KeyCode.Escape))
+		{
+			SceneManager.LoadScene("MainMenu");
+		}
+
+		// Pause the game with 'space'
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			canvas.GetComponent<PauseGame>().Pause();
 		}
 
 
@@ -317,6 +366,14 @@ public class PlayerController : MonoBehaviour {
 	void ChangeHealth(int amount)
 	{
 		HP += amount;
+
+		if (amount < 0)
+		{
+			blinking = true;
+			timeLeft = blinkRate;
+			blinkCount = 0;
+		}
+
 		if (HP <= 0)
 		{
 			GetComponent<AudioSource>().Play();
