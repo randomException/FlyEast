@@ -188,6 +188,7 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetMouseButton(1) && superPowerReady)
 		{
 			UseSuperPower();
+			transform.Find("ClickSound").GetComponent<AudioSource>().Play();
 		}
 
 		// Return to main menu with 'esc'
@@ -316,11 +317,13 @@ public class PlayerController : MonoBehaviour {
 			other.enabled = false;
 
 			StartCoroutine(DestroyObjectAfterWait(0.2f, other.gameObject));
+			transform.Find("HitSound").GetComponent<AudioSource>().Play();
 			ChangeHealth(hitDamage);
 		}
 		else if (other.gameObject.tag == "Enemy")
 		{
 			ChangeHealth(hitDamage);
+			transform.Find("HitSound").GetComponent<AudioSource>().Play();
 		}
 		else if (other.gameObject.tag == "HealthPU")
 		{
