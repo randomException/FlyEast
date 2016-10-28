@@ -193,12 +193,14 @@ public class PlayerController : MonoBehaviour {
 		// Return to main menu with 'esc'
 		if (Input.GetKey(KeyCode.Escape))
 		{
+			transform.Find("ClickSound").GetComponent<AudioSource>().Play();
 			SceneManager.LoadScene("MainMenu");
 		}
 
 		// Pause the game with 'space'
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
+			transform.Find("ClickSound").GetComponent<AudioSource>().Play();
 			canvas.GetComponent<PauseGame>().Pause();
 		}
 
@@ -376,7 +378,8 @@ public class PlayerController : MonoBehaviour {
 
 		if (HP <= 0)
 		{
-			GetComponent<AudioSource>().Play();
+			GetComponent<Collider2D>().enabled = false;
+			transform.Find("DeathSound").GetComponent<AudioSource>().Play();
 			gameOver();
 		}
 		else if (HP > maxHP)
