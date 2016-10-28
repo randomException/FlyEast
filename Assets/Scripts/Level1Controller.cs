@@ -83,7 +83,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(8, 58));
 		list.Add(new Vector2(-97, -135));
 		list.Add(new Vector2(-32, -1));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		//Spline for new enemy (no testSpline saved)
 		list = new List<Vector2>();
@@ -141,7 +141,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(1, 18));
 		list.Add(new Vector2(-11, -72));
 		list.Add(new Vector2(-30, -1));
-		CreateNewEnemy(list[0], -Mathf.PI, "bullet", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "bullet", list, "tough");
 
 		yield return new WaitForSeconds(3);							// 0 min 20.0 s
 		//2nd group
@@ -210,7 +210,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(1, 18));
 		list.Add(new Vector2(-11, -72));
 		list.Add(new Vector2(-30, -1));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		yield return new WaitForSeconds(3);						// 0 min 26.0 s
 		//2nd group
@@ -248,7 +248,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(8, 58));
 		list.Add(new Vector2(-97, -135));
 		list.Add(new Vector2(-32, -1));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		//Spline for new enemy (no testSpline saved)
 		list = new List<Vector2>();
@@ -305,7 +305,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(1, 18));
 		list.Add(new Vector2(-11, -72));
 		list.Add(new Vector2(-30, -1));
-		CreateNewEnemy(list[0], -Mathf.PI, "bullet", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "bullet", list, "tough");
 
 		yield return new WaitForSeconds(3);						// 0 min 43.0 s
 		//2nd group
@@ -314,14 +314,14 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(0, -12));
 		list.Add(new Vector2(-14, -14));
 		list.Add(new Vector2(-25, 18));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(20, -17));
 		list.Add(new Vector2(0, -10));
 		list.Add(new Vector2(-14, 135));
 		list.Add(new Vector2(-23, -18));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(30, 4));
@@ -351,7 +351,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(23, -13));
 		list.Add(new Vector2(-144, -50));
 		list.Add(new Vector2(-30, -2));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		//NEW REUSE OF ALL ABOVE
 
@@ -460,7 +460,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(7, -20));
 		list.Add(new Vector2(-11, -30));
 		list.Add(new Vector2(-30, 10));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(30, -6));
@@ -474,7 +474,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(1, 18));
 		list.Add(new Vector2(-11, -72));
 		list.Add(new Vector2(-30, -1));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		yield return new WaitForSeconds(3);                        // 1 min 6.0 s
 																   //2nd group
@@ -497,7 +497,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(23, -13));
 		list.Add(new Vector2(-144, -50));
 		list.Add(new Vector2(-30, -2));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		//4th group
 		list = new List<Vector2>();
@@ -505,7 +505,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(0, -76));
 		list.Add(new Vector2(-21, 337));
 		list.Add(new Vector2(-22, -17));
-		CreateNewEnemy(list[0], -Mathf.PI, "friend", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "friend", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(20, -17));
@@ -585,7 +585,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(-11, -30));
 		list.Add(new Vector2(-30, -50));
 
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		yield return new WaitForSeconds(3f);                        // 1 min 17.0 s
 		list = new List<Vector2>();
@@ -609,7 +609,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(8, 58));
 		list.Add(new Vector2(-97, -135));
 		list.Add(new Vector2(-32, -1));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 
 		yield return new WaitForSeconds(3);                        // 1 min 21.0 s
@@ -655,7 +655,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(23, -13));
 		list.Add(new Vector2(-144, -50));
 		list.Add(new Vector2(-30, -2));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		yield return new WaitForSeconds(2);                        // 1 min 23.0 s
 		//1st group
@@ -701,7 +701,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(8, 58));
 		list.Add(new Vector2(-97, -135));
 		list.Add(new Vector2(-32, -1));
-		CreateNewEnemy(list[0], -Mathf.PI, "bullet", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "bullet", list, "tough");
 		
 		list = new List<Vector2>();
 		list.Add(new Vector2(20, -30));
@@ -717,21 +717,21 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(4, -78));
 		list.Add(new Vector2(-64, 316));
 		list.Add(new Vector2(-30, -12));
-		CreateNewEnemy(list[0], -Mathf.PI, "health", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "health", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(32, -2));
 		list.Add(new Vector2(0, -10));
 		list.Add(new Vector2(-14, 135));
 		list.Add(new Vector2(-23, -4));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(31, 1));
 		list.Add(new Vector2(23, -13));
 		list.Add(new Vector2(-144, -50));
 		list.Add(new Vector2(-30, 16));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		//Spline for new enemy (no testSpline saved)
 		list = new List<Vector2>();
@@ -771,7 +771,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(23, -13));
 		list.Add(new Vector2(-144, -50));
 		list.Add(new Vector2(-30, -2));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 
 		yield return new WaitForSeconds(2);						// 1 min 38.0 s
@@ -805,14 +805,14 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(0, -76));
 		list.Add(new Vector2(-21, 337));
 		list.Add(new Vector2(-22, -17));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(20, -17));
 		list.Add(new Vector2(0, -10));
 		list.Add(new Vector2(-14, 135));
 		list.Add(new Vector2(-23, 11));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(31, 4));
@@ -897,7 +897,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(8, 58));
 		list.Add(new Vector2(-97, -135));
 		list.Add(new Vector2(-32, -1));
-		CreateNewEnemy(list[0], -Mathf.PI, "health", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "health", list, "tough");
 
 		yield return new WaitForSeconds(0.5f);                     // 1 min 54.5 s
 		list = new List<Vector2>();
@@ -924,7 +924,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(7, -20));
 		list.Add(new Vector2(-11, -30));
 		list.Add(new Vector2(-30, 10));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(30, -6));
@@ -969,7 +969,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(0, -76));
 		list.Add(new Vector2(-21, 337));
 		list.Add(new Vector2(-22, -17));
-		CreateNewEnemy(list[0], -Mathf.PI, "friend", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "friend", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(20, -17));
@@ -1030,7 +1030,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(23, -13));
 		list.Add(new Vector2(-144, -50));
 		list.Add(new Vector2(-30, -2));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 
 		//3rd group (4 planes same path)
@@ -1066,7 +1066,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(0, -10));
 		list.Add(new Vector2(-14, 135));
 		list.Add(new Vector2(-23, -18));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(30, 4));
@@ -1104,7 +1104,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(7, -20));
 		list.Add(new Vector2(-11, -30));
 		list.Add(new Vector2(-30, 10));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(30, -6));
@@ -1123,9 +1123,9 @@ public class Level1Controller : MonoBehaviour {
 		//Direct lines
 		yield return new WaitForSeconds(2);                        // 2 min 15.0 s
 		CreateNewEnemy(new Vector2(40, 10), -Mathf.PI, "none");
-		CreateNewEnemy(new Vector2(35, 5), -Mathf.PI, "none");
+		CreateNewEnemy(new Vector2(35, 5), -Mathf.PI, "none", null, "tough");
 		CreateNewEnemy(new Vector2(30, 0), -Mathf.PI, "friend");
-		CreateNewEnemy(new Vector2(35, -5), -Mathf.PI, "none");
+		CreateNewEnemy(new Vector2(35, -5), -Mathf.PI, "none", null, "tough");
 		CreateNewEnemy(new Vector2(40, -10), -Mathf.PI, "none");
 
 		//3rd group (4 planes almost same path)
@@ -1142,7 +1142,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(8, 63));
 		list.Add(new Vector2(-97, -130));
 		list.Add(new Vector2(-32, 4));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 		
 		list = new List<Vector2>();
 		list.Add(new Vector2(20, -5));
@@ -1156,7 +1156,7 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(8, 53));
 		list.Add(new Vector2(-97, -140));
 		list.Add(new Vector2(-32, -6));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		//5th group
 		yield return new WaitForSeconds(2);                        // 2 min 21.0 s
@@ -1165,14 +1165,14 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(4, -78));
 		list.Add(new Vector2(-64, 316));
 		list.Add(new Vector2(-30, -12));
-		CreateNewEnemy(list[0], -Mathf.PI, "health", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "health", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(32, -2));
 		list.Add(new Vector2(0, -10));
 		list.Add(new Vector2(-14, 135));
 		list.Add(new Vector2(-23, -4));
-		CreateNewEnemy(list[0], -Mathf.PI, "none", list);
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		list = new List<Vector2>();
 		list.Add(new Vector2(31, 1));
@@ -1187,14 +1187,15 @@ public class Level1Controller : MonoBehaviour {
 		list.Add(new Vector2(7, -20));
 		list.Add(new Vector2(-11, -30));
 		list.Add(new Vector2(-30, -50));
+		CreateNewEnemy(list[0], -Mathf.PI, "none", list, "tough");
 
 		//Direct lines
 		yield return new WaitForSeconds(0.5f);                        // 2 min 22.0 s
-		CreateNewEnemy(new Vector2(40, 10), -Mathf.PI, "none");
-		CreateNewEnemy(new Vector2(35, 5), -Mathf.PI, "none");
-		CreateNewEnemy(new Vector2(30, 0), -Mathf.PI, "none");
-		CreateNewEnemy(new Vector2(35, -5), -Mathf.PI, "none");
-		CreateNewEnemy(new Vector2(40, -10), -Mathf.PI, "none");
+		CreateNewEnemy(new Vector2(40, 10), -Mathf.PI, "none", null, "tough");
+		CreateNewEnemy(new Vector2(35, 5), -Mathf.PI, "none", null, "tough");
+		CreateNewEnemy(new Vector2(30, 0), -Mathf.PI, "none", null, "tough");
+		CreateNewEnemy(new Vector2(35, -5), -Mathf.PI, "none", null, "tough");
+		CreateNewEnemy(new Vector2(40, -10), -Mathf.PI, "none", null, "tough");
 
 	}
 
