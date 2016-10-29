@@ -13,6 +13,11 @@ public class SuperPowerImageController : MonoBehaviour {
 	public Sprite State3;                   // 3rd "animation" sprite
 	public Sprite State4;                   // 4th "animation" sprite
 
+	public Sprite evState1;                 // 1st Evacuation "animation" sprite
+	public Sprite evState2;                 // 2nd Evacuation "animation" sprite
+	public Sprite evState3;                 // 3rd Evacuation "animation" sprite
+	public Sprite evState4;                 // 4th Evacuation "animation" sprite
+
 	private float timeBetweenSprites;		// How much time is between sprites
 	private float timeLeft;                 // How much time is left before next sprite
 
@@ -68,7 +73,23 @@ public class SuperPowerImageController : MonoBehaviour {
 		}
 		else
 		{
-			SuperPowerImage.sprite = OriginalSprite;
+			StartCoroutine(EvacuationAnimation());
+			//SuperPowerImage.sprite = OriginalSprite;
 		}
 	}
+
+	IEnumerator EvacuationAnimation()
+	{
+		yield return new WaitForSeconds(0.1f);
+		SuperPowerImage.sprite = evState1;
+		yield return new WaitForSeconds(0.1f);
+		SuperPowerImage.sprite = evState2;
+		yield return new WaitForSeconds(0.1f);
+		SuperPowerImage.sprite = evState3;
+		yield return new WaitForSeconds(0.1f);
+		SuperPowerImage.sprite = evState4;
+		yield return new WaitForSeconds(0.1f);
+		SuperPowerImage.sprite = OriginalSprite;
+	}
+
 }

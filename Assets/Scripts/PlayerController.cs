@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour {
 	private int bulletPerShooting;			//Tells how many bullets the layer shoots at the same time
 
 	private int hitDamage;                  //How many HPs player is going to lose when hitted by enemy planes or enemy bullets
-	private float superPower;               //Tells how much of the super power has been filled (10 == full, 0 == empty)
+	private float superPower;               //Tells how much of the super power has been filled (20 == full, 0 == empty)
 	private bool superPowerReady;           //Tells if super power is ready to use
 	private int maxSuperPower;              //Tells how many super power points player has to have so the super power activates
 
@@ -184,7 +184,7 @@ public class PlayerController : MonoBehaviour {
 		//reset velocity to zero
 		GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 
-		//Use super power with Space
+		//Use super power with right mouse button
 		if (Input.GetMouseButton(1) && superPowerReady)
 		{
 			UseSuperPower();

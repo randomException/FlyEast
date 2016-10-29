@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 10ffac9ba505e2d43869a14ed79b880c
-timeCreated: 1477571710
+timeCreated: 1477748715
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -57,8 +57,8 @@ TextureImporter:
       name: new-skill button normal_0
       rect:
         serializedVersion: 2
-        x: 113
-        y: 97
+        x: 111
+        y: 93
         width: 198
         height: 173
       alignment: 0
