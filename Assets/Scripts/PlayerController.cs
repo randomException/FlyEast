@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour {
 
 		superPower = 0;
 		superPowerReady = false;
-		maxSuperPower = 20;
+		maxSuperPower = 25;
 		SuperPowerMeter.fillAmount = 0;
 
 		topFriend = false;
@@ -278,18 +278,30 @@ public class PlayerController : MonoBehaviour {
 		animator.SetBool("playerDies", true);
 		isDead = true;
 
-		loseImage.SetActive(true);
+		if (winImage.activeSelf)
+		{
+			winImage.SetActive(false);
+			loseImage.SetActive(true);
+		}
 
-		StartCoroutine(WaitForRestart());
+		else
+		{
+			loseImage.SetActive(true);
+			StartCoroutine(WaitForRestart());
+		}
 
 	}
 
 	//Activated when player wins
 	void WinTheGame()
 	{
-		winImage.SetActive(true);
+		//Player can't win if his dead
+		if (!IsDead())
+		{
+			winImage.SetActive(true);
 
-		StartCoroutine(WaitForRestart());
+			StartCoroutine(WaitForRestart());
+		}
 	}
 
 	//When died or won the game, wait 3s before restarting the level

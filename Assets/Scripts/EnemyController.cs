@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class EnemyController : MonoBehaviour {
 	public string type;							//Tells which kindof enemy this is (basic, tougher, big)
@@ -153,7 +154,15 @@ public class EnemyController : MonoBehaviour {
 			if (y < 0)
 				y_speed = -y_speed;
 
-			aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(x_speed, y_speed);
+			//Try - Catch will clear the opportunity to crash the game due to NaN speed values
+			try
+			{
+				aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(x_speed, y_speed);
+			}
+			catch(Exception e)
+			{
+				aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
+			}
 		}
 
 		else if (type.Equals("Tougher"))

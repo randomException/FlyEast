@@ -7,13 +7,14 @@ public class ClickToLoad : MonoBehaviour {
 
 	public Slider loadingBar;
 	public GameObject loadingImage;
-
+	public GameObject info;
 
 	private AsyncOperation async;
 
 
 	public void ClickAsync(int level)
 	{
+		info.SetActive(false);
 		loadingImage.SetActive(true);
 		StartCoroutine(LoadLevelWithBar(level));
 	}
