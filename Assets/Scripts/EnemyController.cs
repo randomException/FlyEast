@@ -132,7 +132,7 @@ public class EnemyController : MonoBehaviour {
 	//Setup the position and velocity of the new bullet
 	void SetupBullet(GameObject aBullet)
 	{
-		if (type.Equals("Basic"))
+		if (type.Equals("Basic") || type.Equals("Tougher"))
 		{
 			aBullet.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 			aBullet.SetActive(true);
@@ -165,7 +165,7 @@ public class EnemyController : MonoBehaviour {
 			}
 		}
 
-		else if (type.Equals("Tougher"))
+		else
 		{
 			return;
 		}
