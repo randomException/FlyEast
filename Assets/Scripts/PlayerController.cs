@@ -56,10 +56,14 @@ public class PlayerController : MonoBehaviour {
 	private float blinkRate;				//How often player blinks
 	private float timeLeft;                 //When the player is going to flash next time
 	private int blinkTimes;                 //How many times player blinks
-	private int blinkCount;					//Current blink count
+	private int blinkCount;                 //Current blink count
+
+	private bool playerReady;				//Tells if the game has really started (you can move player)
 
 	// Use this for initialization
 	void Start () {
+		playerReady = false;
+
 		hitDamage = -5;
 		reviveHealth = 25;
 		maxHP = HP;
@@ -94,10 +98,23 @@ public class PlayerController : MonoBehaviour {
 		timeLeft = blinkRate;
 		blinkTimes = 3;
 		blinkCount = 0;
+
+
+		//AudioListener.volume = 0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (!playerReady)
+		{
+			gameObject.transform.position = new Vector3(gameObject.transform.position.x + Time.deltaTime * 10, gameObject.transform.position.y, gameObject.transform.position.z);
+			if(gameObject.transform.position.x >= -15.5)
+			{
+				playerReady = true;
+			}
+			return;
+		}
+
 		//Move the background
 		if (Background.transform.position.x > -355)
 			Background.transform.position = new Vector3(Background.transform.position.x - Time.deltaTime * 5, Background.transform.position.y, Background.transform.position.z);

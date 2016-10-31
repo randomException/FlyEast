@@ -19,6 +19,11 @@ public class ClickToLoad : MonoBehaviour {
 		StartCoroutine(LoadLevelWithBar(level));
 	}
 
+	public void LoadMainMenu()
+	{
+		SceneManager.LoadScene(0);
+	}
+
 
 	IEnumerator LoadLevelWithBar(int level)
 	{

@@ -159,7 +159,7 @@ public class EnemyController : MonoBehaviour {
 			{
 				aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(x_speed, y_speed);
 			}
-			catch(Exception e)
+			catch(Exception)
 			{
 				aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
 			}

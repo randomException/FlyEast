@@ -24,6 +24,10 @@ public class Level1Controller : MonoBehaviour {
 	//Defines when and where enemies appears and how they move
 	IEnumerator Wait()
 	{
+		// Wait for the player starting animation to end
+		yield return new WaitForSeconds(1.2f);
+		//Now the game really starts
+
 		yield return new WaitForSeconds(2);						// 0 min 2.0 s
 		//1st group
 		List<Vector2> list = new List<Vector2>();
