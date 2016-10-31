@@ -16,7 +16,7 @@ Platform assembly: C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\
 Loading C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\main_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\main_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
 Loading C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\main_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
-- Completed reload, in  0.062 seconds
+- Completed reload, in  0.055 seconds
 Platform assembly: C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\main_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\main_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
@@ -24,18 +24,18 @@ desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 2.104000 ms
+UnloadTime: 2.062666 ms
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 13.579555 ms
+UnloadTime: 10.811555 ms
 
 Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 635.
-Total: 1.112444 ms (FindLiveObjects: 0.025777 ms CreateObjectMapping: 0.021333 ms MarkObjects: 0.426222 ms  DeleteObjects: 0.638666 ms)
+Total: 1.209777 ms (FindLiveObjects: 0.026666 ms CreateObjectMapping: 0.023555 ms MarkObjects: 0.335111 ms  DeleteObjects: 0.824000 ms)
 
 Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 2.029333 ms
+UnloadTime: 1.483111 ms
 
 Unloading 168 unused Assets to reduce memory usage. Loaded Objects now: 255.
-Total: 4.112888 ms (FindLiveObjects: 0.037777 ms CreateObjectMapping: 0.044444 ms MarkObjects: 0.172444 ms  DeleteObjects: 3.857777 ms)
+Total: 4.164888 ms (FindLiveObjects: 0.054222 ms CreateObjectMapping: 0.015555 ms MarkObjects: 0.170666 ms  DeleteObjects: 3.924000 ms)
 
 Setting up 1 worker threads for Enlighten.
-  Thread -> id: 296c -> priority: 1 
+  Thread -> id: 7e0 -> priority: 1 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 
 public class EnemyController : MonoBehaviour {
-	public string type;							//Tells which kindof enemy this is (basic, tougher, big)
+	public string type;							//Tells which kind of enemy this is (basic, tougher)
 
 	public float reloadTime;                    //Tells the time between bullets are fired
 	public GameObject bullet;                   //Instance of enemies' bullets. Will be used to create new bullets 
@@ -14,15 +14,10 @@ public class EnemyController : MonoBehaviour {
 	private bool powerUp;                       //indicates if enemy has powerup to drop after dead
 	private string powerUpItem;					//indicated wjich powerup enemy drops when dead
 
-	public string movementMode;					//The way enemy moves (straight, sin, arc, etc.)
-	public float movementAngle;					//??? - Joaquin
-	public float movementSpeed;					//??? - Joaquin
-
 	private bool readyToShoot;                  //Tells if enemy is ready to shoot a new bullet
 	private float reloadTimeRemaining;          //How much time is left before next shooting
 	public float hitDamage;						//How much enemy loses HP when it hits with player's bullet
 	
-	private int lifeTime=0;                     //Time that the plane has been living
 	private float lifeTimeSeconds;              //Time that the plane has been living in seconds
 
 	private OutOfBounds ofb;					//'Out of bounds' class instance
@@ -36,9 +31,9 @@ public class EnemyController : MonoBehaviour {
 	public GameObject BackupPU;                 //Instance of backup power up gameobject
 	public GameObject BulletPU;                 //Instance of bullet power up gameobject
 
-	private bool selfDestruction;       // Tells if enemy is going to disappear after certain time limit
-	public float timeToLive;            // How long the bullet lies after self destruction set on
-	private float timeLeft;             // How much time is left before destory
+	private bool selfDestruction;				// Tells if enemy is going to disappear after certain time limit
+	public float timeToLive;					// How long the bullet lies after self destruction set on
+	private float timeLeft;						// How much time is left before destory
 
 	// Use this for initialization
 	void Start () {
@@ -61,18 +56,8 @@ public class EnemyController : MonoBehaviour {
 		transform.Find("PowerUpCircle").transform.Rotate(new Vector3(0, 0, -200 * Time.deltaTime), Space.Self);
 
 		//pendant: replace by deltatime.
-		lifeTime++;
 		lifeTimeSeconds += Time.deltaTime;
 		Shoot();
-		//transform.eulerAngles = new Vector3 (0,0,getRotationAngle());
-		
-		//here we need to put a function that will make the object position to increment
-		//in x and y according to the transform angle.
-		//transform.Translate(Mathf.Cos(transform.rotation.z/180*Mathf.PI)*Time.deltaTime,Mathf.Sin(transform.rotation.z/180*Mathf.PI)*Time.deltaTime,0);
-
-		//transform.position += myVector;
-		//transform.RotateAround (transform.position, Vector3.forward, );
-		//transform.rotation = new Quaternion(getCurrentAngle(), 0, 0, 1);
 
 		if (!inPlay)
 		{
@@ -140,6 +125,12 @@ public class EnemyController : MonoBehaviour {
 			Vector2 toPlayer = player.transform.position - transform.position;
 			float x = toPlayer.x;
 			float y = toPlayer.y;
+			
+			if(x == 0 || y == 0)
+			{
+				aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
+				return;
+			}
 
 			//ORIGINAL LINES
 			//float angle = Random.Range(-180, 180);
@@ -154,15 +145,8 @@ public class EnemyController : MonoBehaviour {
 			if (y < 0)
 				y_speed = -y_speed;
 
-			//Try - Catch will clear the opportunity to crash the game due to NaN speed values
-			try
-			{
-				aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(x_speed, y_speed);
-			}
-			catch(Exception)
-			{
-				aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
-			}
+			
+			aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(x_speed, y_speed);
 		}
 
 		else
@@ -197,20 +181,6 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
-	//CAN BE REMOVED AFTER SPLINES WORKS 100% CORRECTLY
-	float getRotationAngle(){
-		switch (movementMode){
-		case "straight":
-			return movementAngle;
-		case "sinusoidal":
-			//base angle + sin(time / oscilation length)*oscillation intensity in... ¿deg?
-			return movementAngle + Mathf.Sin (lifeTime / 100.00f)*40;
-		case "arc":
-			return movementAngle+lifeTime;
-		default:
-			return 0;
-		}
-	}
 
 	//Setup enemy's spline curv
 	public void setupSpline(List<Vector2> list)
