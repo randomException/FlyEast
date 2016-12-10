@@ -5,12 +5,7 @@ using UnityEngine.UI;
 public class ShowInfo : MonoBehaviour {
 
 	public GameObject info;
-	private bool visible;
-
-	void start()
-	{
-		visible = false;
-	}
+	public bool visible;
 
 	public void Show()
 	{
