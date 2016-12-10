@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 85c46f8f0b215b64fb36dbff03ca8e16
-timeCreated: 1481375828
+timeCreated: 1481388993
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -64,20 +64,20 @@ TextureImporter:
         height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 15, y: 12, z: 14, w: 12}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: skillready_1
       rect:
         serializedVersion: 2
-        x: 214
+        x: 200
         y: 0
-        width: 186
+        width: 200
         height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 12, z: 15, w: 12}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     outline: []

@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour {
 	public GameObject winImage;             //Win indicator
 	public GameObject loseImage;            //Lose indicator
 
+	public Image SkillreadyImage;           // Image of skillready text
+
 	private bool isInvisible;				//Tells if player is "invisible"
 	private bool blinking;                  //Tells if player got damage and is blinking now
 	private float blinkRate;				//How often player blinks
@@ -442,6 +444,9 @@ public class PlayerController : MonoBehaviour {
 
 			//SuperPowerImage.GetComponent<Animator>().SetBool("MeterIsFull", true);
 			GetComponent<SuperPowerImageController>().SetFull(true);
+
+			SkillreadyImage.gameObject.SetActive(true);
+			GetComponent<SkillreadyTextController>().Activate();
 		}
 		SuperPowerMeter.fillAmount = superPower / maxSuperPower;
 
@@ -456,6 +461,9 @@ public class PlayerController : MonoBehaviour {
 		SuperPowerMeter.enabled = true;
 
 		GetComponent<SuperPowerImageController>().SetFull(false);
+
+		SkillreadyImage.gameObject.SetActive(false);
+		GetComponent<SkillreadyTextController>().UnActivate();
 
 		CreateNewFriend(new Vector2(-50, -10), false);
 		CreateNewFriend(new Vector2(-40, -5), false);

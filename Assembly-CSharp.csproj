@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\PowerUpController.cs" />
      <Compile Include="Assets\Scripts\ShowInfo.cs" />
+     <Compile Include="Assets\Scripts\SkillreadyTextController.cs" />
      <Compile Include="Assets\Scripts\Spline.cs" />
      <Compile Include="Assets\Scripts\SuperPowerImageController.cs" />
      <Compile Include="Assets\Scripts\TestingSplinesScript.cs" />

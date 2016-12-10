@@ -21,6 +21,7 @@ public class ClickToLoad : MonoBehaviour {
 
 	public void LoadMainMenu()
 	{
+		Time.timeScale = 1.0f;
 		SceneManager.LoadScene(0);
 	}
 
