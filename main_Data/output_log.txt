@@ -16,7 +16,7 @@ Platform assembly: C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\
 Loading C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\main_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\main_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
 Loading C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\main_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
-- Completed reload, in  0.055 seconds
+- Completed reload, in  0.098 seconds
 Platform assembly: C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\main_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\main_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
@@ -24,18 +24,54 @@ desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 2.062666 ms
+UnloadTime: 0.715999 ms
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 10.811555 ms
+UnloadTime: 3.803109 ms
 
 Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 635.
-Total: 1.209777 ms (FindLiveObjects: 0.026666 ms CreateObjectMapping: 0.023555 ms MarkObjects: 0.335111 ms  DeleteObjects: 0.824000 ms)
+Total: 0.750666 ms (FindLiveObjects: 0.027999 ms CreateObjectMapping: 0.020444 ms MarkObjects: 0.295110 ms  DeleteObjects: 0.406222 ms)
 
 Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.483111 ms
+UnloadTime: 1.327554 ms
 
 Unloading 168 unused Assets to reduce memory usage. Loaded Objects now: 255.
-Total: 4.164888 ms (FindLiveObjects: 0.054222 ms CreateObjectMapping: 0.015555 ms MarkObjects: 0.170666 ms  DeleteObjects: 3.924000 ms)
+Total: 4.057775 ms (FindLiveObjects: 0.013777 ms CreateObjectMapping: 0.047111 ms MarkObjects: 0.250666 ms  DeleteObjects: 3.745776 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.530221 ms
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 632.
+Total: 0.733333 ms (FindLiveObjects: 0.018666 ms CreateObjectMapping: 0.015111 ms MarkObjects: 0.227111 ms  DeleteObjects: 0.471555 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.070221 ms
+
+Unloading 168 unused Assets to reduce memory usage. Loaded Objects now: 255.
+Total: 4.469331 ms (FindLiveObjects: 0.014666 ms CreateObjectMapping: 0.029777 ms MarkObjects: 0.186222 ms  DeleteObjects: 4.238220 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.578666 ms
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 632.
+Total: 0.803555 ms (FindLiveObjects: 0.019555 ms CreateObjectMapping: 0.017333 ms MarkObjects: 0.263110 ms  DeleteObjects: 0.503110 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.956888 ms
+
+Unloading 168 unused Assets to reduce memory usage. Loaded Objects now: 255.
+Total: 3.974664 ms (FindLiveObjects: 0.018666 ms CreateObjectMapping: 0.015555 ms MarkObjects: 0.197333 ms  DeleteObjects: 3.742665 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.015110 ms
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 635.
+Total: 2.051554 ms (FindLiveObjects: 0.075555 ms CreateObjectMapping: 0.057333 ms MarkObjects: 0.629777 ms  DeleteObjects: 1.287554 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.783998 ms
+
+Unloading 168 unused Assets to reduce memory usage. Loaded Objects now: 255.
+Total: 11.713772 ms (FindLiveObjects: 0.047555 ms CreateObjectMapping: 0.059999 ms MarkObjects: 0.470222 ms  DeleteObjects: 11.134216 ms)
 
 Setting up 1 worker threads for Enlighten.
-  Thread -> id: 7e0 -> priority: 1 
+  Thread -> id: 2844 -> priority: 1 
