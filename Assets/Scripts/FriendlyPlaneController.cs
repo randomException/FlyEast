@@ -20,13 +20,27 @@ public class FriendlyPlaneController : MonoBehaviour {
 	private OutOfBounds ofb;                //'Out of bounds' class instance
 	private bool inPlay;                    //Tells if friend has entered game area (== camera area)
 
-	public GameObject player;				//Player gameobject
+	public GameObject player;               //Player gameobject
+
+	private bool isInvisible;               //Tells if friendly is "invisible"
+	private bool blinking;                  //Tells if friendly got damage and is blinking now
+	private float blinkRate;                //How often friendly blinks
+	private float timeLeft;                 //When the friendly is going to flash next time
+	private int blinkTimes;                 //How many times friendly blinks
+	private int blinkCount;                 //Current blink count
 
 	// Use this for initialization
 	void Start () {
 		ofb = gameObject.AddComponent<OutOfBounds>();
 		inPlay = false;
 		hitDamage = -20;
+
+		isInvisible = false;
+		blinking = false;
+		blinkRate = 0.2f;
+		timeLeft = blinkRate;
+		blinkTimes = 3;
+		blinkCount = 0;
 	}
 	
 	// Update is called once per frame
@@ -52,6 +66,52 @@ public class FriendlyPlaneController : MonoBehaviour {
 		{
 			if (!ofb.IsInPlayArea(transform.position.x, transform.position.y))
 				Destroy(gameObject);
+		}
+
+		//Player blinking
+		if (blinking)
+		{
+			// if there is more blinks to come
+			if (blinkCount < blinkTimes)
+			{
+				// if player is visible
+				if (!isInvisible)
+				{
+					timeLeft -= Time.deltaTime;
+					if (timeLeft <= 0)
+					{
+						gameObject.GetComponent<SpriteRenderer>().color = new Color(
+							gameObject.GetComponent<SpriteRenderer>().color.r,
+							gameObject.GetComponent<SpriteRenderer>().color.g,
+							gameObject.GetComponent<SpriteRenderer>().color.b, 0.2f);
+
+						isInvisible = true;
+						timeLeft = blinkRate;
+					}
+				}
+				// if player is invisible
+				else
+				{
+					timeLeft -= Time.deltaTime;
+					if (timeLeft <= 0)
+					{
+						gameObject.GetComponent<SpriteRenderer>().color = new Color(
+							gameObject.GetComponent<SpriteRenderer>().color.r,
+							gameObject.GetComponent<SpriteRenderer>().color.g,
+							gameObject.GetComponent<SpriteRenderer>().color.b, 1);
+
+						isInvisible = false;
+						timeLeft = blinkRate;
+
+						blinkCount++;
+					}
+				}
+			}
+			// if all blinks has been made
+			else
+			{
+				blinking = false;
+			}
 		}
 	}
 
@@ -131,6 +191,10 @@ public class FriendlyPlaneController : MonoBehaviour {
 		//Only friend that stays with player can die
 		if (type.Equals("stay"))
 		{
+			blinking = true;
+			timeLeft = blinkRate;
+			blinkCount = 0;
+
 			if (HP <= 0)
 			{
 				player.GetComponent<PlayerController>().setFriendlyAsFalse(pos);
