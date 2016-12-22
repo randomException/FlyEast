@@ -16,26 +16,10 @@ Platform assembly: C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\
 Loading C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\FlyEast_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\FlyEast_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
 Loading C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\FlyEast_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
-- Completed reload, in  0.078 seconds
+- Completed reload, in  0.086 seconds
 Platform assembly: C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\FlyEast_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Valtteri\Documents\Unity projektit\Aces of Luftwafe\FlyEast_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
 <RI> Input initialized.
-<RI> Initialized touch support.
-UnloadTime: 0.740887 ms
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 10.130648 ms
-
-Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 644.
-Total: 0.985331 ms (FindLiveObjects: 0.027555 ms CreateObjectMapping: 0.031555 ms MarkObjects: 0.283110 ms  DeleteObjects: 0.642665 ms)
-
-Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.363997 ms
-
-Unloading 171 unused Assets to reduce memory usage. Loaded Objects now: 256.
-Total: 4.126659 ms (FindLiveObjects: 0.017777 ms CreateObjectMapping: 0.014666 ms MarkObjects: 0.165777 ms  DeleteObjects: 3.927993 ms)
-
-Setting up 1 worker threads for Enlighten.
-  Thread -> id: 724 -> priority: 1 
