@@ -4,18 +4,22 @@ using System.Collections.Generic;
 
 public class TestingSplinesScript : MonoBehaviour {
 
+    public bool Active;
+
 	public Vector2 v1;
 	public Vector2 v2;
 	public Vector2 v3;
 	public Vector2 v4;
 
 	public GameObject testBall;
-
 	private List<Vector2> pointList;
 
-
-	// Update is called once per frame
 	void Update() {
+        if (!Active)
+        {
+            return;
+        }
+
 		pointList = new List<Vector2>();
 		pointList.Add(v1);
 		pointList.Add(v2);
