@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class TestingSplinesScript : MonoBehaviour {
 
+    // One public variable for taking points to list, not 4 single points
+    // Remove spline calculator and make class for it
+
     public bool Active;
 
 	public Vector2 v1;

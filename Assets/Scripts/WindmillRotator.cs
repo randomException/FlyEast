@@ -3,12 +3,9 @@ using System.Collections;
 
 public class WindmillRotator : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
+    // TODO: Rename "Rotator"
+    // public variable gets rotating speed
+
 	void Update () {
 		transform.Rotate(new Vector3(0, 0, -200 * Time.deltaTime), Space.Self);
 	}

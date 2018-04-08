@@ -3,34 +3,32 @@ using System.Collections;
 
 public class BulletController : MonoBehaviour {
 
-	private OutOfBounds ofb;            // 'Out of bounds' class instance
+	private OutOfBounds outOfBoundsInstance;
 
-	private bool selfDestruction;       // Tells if bullet is going to disappear after certain time limit
-	public float timeToLive;            // How long the bullet lies after self destruction set on
-	private float timeLeft;				// How much time is left before destory
+    public float SelfDestructionTime;
+    private bool selfDestruction = false;
+	private float timeLeft;
 
 	void Start()
 	{
-		ofb = gameObject.AddComponent<OutOfBounds>();
-		timeLeft = timeToLive;
+		outOfBoundsInstance = gameObject.AddComponent<OutOfBounds>();
+		timeLeft = SelfDestructionTime;
 	}
 
-	// Update is called once per frame
 	void Update () {
 
-		if (!ofb.IsInPlayArea(transform.position.x, transform.position.y))
+		if (!outOfBoundsInstance.IsInPlayArea(transform.position.x, transform.position.y))
 			Destroy(gameObject);
 
 		if (selfDestruction)
 		{
 			timeLeft -= Time.deltaTime;
-
 			if (timeLeft <= 0)
 				Destroy(gameObject);
 		}
 	}
 
-	public void activateSelfDestruction()
+	public void ActivateSelfDestruction()
 	{
 		selfDestruction = true;
 	}
