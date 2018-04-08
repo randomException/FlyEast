@@ -5,12 +5,27 @@ using UnityEngine.SceneManagement;
 
 public class ClickToLoad : MonoBehaviour {
 
+    private GameManager gameManager;
 	public Slider loadingBar;
+    public Text LoadingText;
 	public GameObject loadingImage;
 	public GameObject info;
 
 	private AsyncOperation async;
 
+    public string[] LoadingTexts;
+
+    void Start()
+    {
+        gameManager = GameManager.Instance;
+    }
+
+    public void StartFirstLevelOnDifficulty(int difficulty)
+    {
+        gameManager.SetDifficulty(difficulty);
+        LoadingText.text = LoadingTexts[difficulty];
+        ClickAsync(1);
+    }
 
 	public void ClickAsync(int level)
 	{
