@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
-    private GameManager gameManager;
 	public float speed;						//Movement speed
 	public float bulletSpeed;				//Players bullet movement speed
 	public GameObject bullet;				//Instance of player's bullet. Will be used to create new bullets 
@@ -65,7 +64,6 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        gameManager = GameManager.Instance;
 		playerReady = false;
 
 		hitDamage = -5;
@@ -401,19 +399,18 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//Increase or decrease player's health points
-	void ChangeHealth(float amount)
+	void ChangeHealth(int amount)
 	{
+		HP += amount;
+
 		if (amount < 0)
 		{
 			blinking = true;
 			timeLeft = blinkRate;
 			blinkCount = 0;
-            amount *= gameManager.DifficultyTakenDamageMultiplier;
 		}
 
-        HP += amount;
-
-        if (HP <= 0)
+		if (HP <= 0)
 		{
 			GetComponent<Collider2D>().enabled = false;
 			transform.Find("DeathSound").GetComponent<AudioSource>().Play();

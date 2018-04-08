@@ -5,29 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class ClickToLoad : MonoBehaviour {
 
-	public Slider LoadingBar;
-	public GameObject LoadingImage;
-	public GameObject InfoImage;
+	public Slider loadingBar;
+	public GameObject loadingImage;
+	public GameObject info;
 
 	private AsyncOperation async;
-    private GameManager gameManager;
 
-    void Start()
-    {
-        gameManager = GameManager.Instance;
-    }
-
-    // difficulty: 1 == easy, 2 == normal, 3 == hard
-    public void StartFirstLevelOnDifficulty(int difficulty)
-    {
-        gameManager.SetDifficulty(difficulty);
-        ClickAsync(1);
-    }
 
 	public void ClickAsync(int level)
 	{
-		//InfoImage.SetActive(false);
-		//LoadingImage.SetActive(true);
+		info.SetActive(false);
+		loadingImage.SetActive(true);
 		StartCoroutine(LoadLevelWithBar(level));
 	}
 
@@ -43,7 +31,7 @@ public class ClickToLoad : MonoBehaviour {
 		async = SceneManager.LoadSceneAsync(level);
 		while (!async.isDone)
 		{
-			LoadingBar.value = async.progress;
+			loadingBar.value = async.progress;
 			yield return null;
 		}
 	}

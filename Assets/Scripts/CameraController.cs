@@ -3,17 +3,21 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour
 {
-	public PlayerController Player;
-	private float offset_y;
 
+	public GameObject player;			//Player object
+
+	private float offset_y;				//The distance between camera and player when game starts
+
+	// Use this for initialization
 	void Start()
 	{
-		offset_y = transform.position.y - Player.transform.position.y;
+		offset_y = transform.position.y - player.transform.position.y;
 	}
 
+	// Update is called once per frame
 	void Update()
 	{
-		if(!Player.IsDead())
-			transform.position = new Vector3(0, Player.transform.position.y * 0.3f + offset_y, -10);
+		if(!player.GetComponent<PlayerController>().IsDead())
+			transform.position = new Vector3(0, player.transform.position.y * 0.3f + offset_y, -10);
 	}
 }
