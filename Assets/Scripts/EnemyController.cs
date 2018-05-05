@@ -4,19 +4,24 @@ using System.Collections.Generic;
 using System;
 
 public class EnemyController : MonoBehaviour {
-	public string type;							//Tells which kind of enemy this is (basic, tougher)
 
-	public float reloadTime;
-	public GameObject bullet; 
-	public float bulletSpeed;
-	public float HP;
+	[SerializeField] private string		type;                         //Tells which kind of enemy this is (basic, tougher)
+	[SerializeField] private float		reloadTime;
+	[SerializeField] private GameObject bullet;
+	[SerializeField] private float		bulletSpeed;
+	[SerializeField] private float		HP;
+	[SerializeField] private float		hitDamage;                    //How much enemy loses HP when it hits with player's bullet
+
+	[SerializeField] private GameObject player;
+	[SerializeField] private GameObject HealthPU;
+	[SerializeField] private GameObject BackupPU;
+	[SerializeField] private GameObject BulletPU;
 
 	private bool hasPowerUp;
 	private string powerUpItem;
 
 	private bool readyToShoot;
 	private float reloadTimeRemaining;
-	public float hitDamage;						//How much enemy loses HP when it hits with player's bullet
 	
 	private float lifeTimeSeconds;
 
@@ -26,14 +31,10 @@ public class EnemyController : MonoBehaviour {
 	private Spline spline;
 	private bool hasSpline = false;
 
-	public GameObject player;
-	public GameObject HealthPU;
-	public GameObject BackupPU;
-	public GameObject BulletPU;
-
-	private bool selfDestructionActivated;		// Tells if enemy is going to disappear after certain time limit
-	public float timeToLive;					// How long the bullet lies after self destruction set on
-	private float timeLeft;						// How much time is left before destory
+	[SerializeField]
+	private float timeToLive;					// How long the bullet lies after self destruction set on
+	private float timeLeft;                     // How much time is left before destory
+	private bool selfDestructionActivated;      // Tells if enemy is going to disappear after certain time limit
 
 	void Start () {
 		readyToShoot = true;
