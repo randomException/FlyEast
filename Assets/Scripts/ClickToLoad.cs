@@ -5,15 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class ClickToLoad : MonoBehaviour {
 
-    private GameManager gameManager;
-	public Slider loadingBar;
-    public Text LoadingText;
-	public GameObject loadingImage;
-	public GameObject info;
+	[SerializeField] private Slider		loadingBar;
+	[SerializeField] private Text		LoadingText;
+	[SerializeField] private GameObject	loadingImage;
+	[SerializeField] private GameObject	info;
+	[SerializeField] private string[]	LoadingTexts;
 
+	private GameManager gameManager;
 	private AsyncOperation async;
-
-    public string[] LoadingTexts;
 
     void Start()
     {
@@ -39,7 +38,6 @@ public class ClickToLoad : MonoBehaviour {
 		Time.timeScale = 1.0f;
 		SceneManager.LoadScene(0);
 	}
-
 
 	IEnumerator LoadLevelWithBar(int level)
 	{

@@ -6,43 +6,42 @@ using System;
 public class EnemyController : MonoBehaviour {
 	public string type;							//Tells which kind of enemy this is (basic, tougher)
 
-	public float reloadTime;                    //Tells the time between bullets are fired
-	public GameObject bullet;                   //Instance of enemies' bullets. Will be used to create new bullets 
-	public float bulletSpeed;                   //Bullet movement speed
-	public float HP;                            //Enemy's health points
+	public float reloadTime;
+	public GameObject bullet; 
+	public float bulletSpeed;
+	public float HP;
 
-	private bool powerUp;                       //indicates if enemy has powerup to drop after dead
-	private string powerUpItem;					//indicated wjich powerup enemy drops when dead
+	private bool hasPowerUp;
+	private string powerUpItem;
 
-	private bool readyToShoot;                  //Tells if enemy is ready to shoot a new bullet
-	private float reloadTimeRemaining;          //How much time is left before next shooting
+	private bool readyToShoot;
+	private float reloadTimeRemaining;
 	public float hitDamage;						//How much enemy loses HP when it hits with player's bullet
 	
-	private float lifeTimeSeconds;              //Time that the plane has been living in seconds
+	private float lifeTimeSeconds;
 
-	private OutOfBounds ofb;					//'Out of bounds' class instance
-	private bool inPlay;                        //Tells if enemy has entered game area (== camera area)
+	private OutOfBounds ofb;
+	private bool inPlayArea;
 
-	private Spline spline;                      //'Out of bounds' class instance fot curves
-	private bool hasSpline = false;             //Tells if object has a spline object
+	private Spline spline;
+	private bool hasSpline = false;
 
-	public GameObject player;                   //Player game object
-	public GameObject HealthPU;                 //Instance of health power up gameobject
-	public GameObject BackupPU;                 //Instance of backup power up gameobject
-	public GameObject BulletPU;                 //Instance of bullet power up gameobject
+	public GameObject player;
+	public GameObject HealthPU;
+	public GameObject BackupPU;
+	public GameObject BulletPU;
 
-	private bool selfDestruction;				// Tells if enemy is going to disappear after certain time limit
+	private bool selfDestructionActivated;		// Tells if enemy is going to disappear after certain time limit
 	public float timeToLive;					// How long the bullet lies after self destruction set on
 	private float timeLeft;						// How much time is left before destory
 
-	// Use this for initialization
 	void Start () {
 		readyToShoot = true;
 		reloadTimeRemaining = reloadTime;
 		lifeTimeSeconds = 0;
 
 		ofb = gameObject.AddComponent<OutOfBounds>();
-		inPlay = false;
+		inPlayArea = false;
 
 		if(hasSpline)
 			GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
@@ -59,12 +58,12 @@ public class EnemyController : MonoBehaviour {
 		lifeTimeSeconds += Time.deltaTime;
 		Shoot();
 
-		if (!inPlay)
+		if (!inPlayArea)
 		{
 			if (ofb.IsInCameraArea(transform.position.x, transform.position.y))
-				inPlay = true;
+				inPlayArea = true;
 		}
-		if (inPlay)
+		if (inPlayArea)
 		{
 			if (!ofb.IsInPlayArea(transform.position.x, transform.position.y))
 				Destroy(gameObject);
@@ -76,13 +75,13 @@ public class EnemyController : MonoBehaviour {
 			transform.position = new Vector3(newLocation.x, newLocation.y, 0);
 		}
 
-		if (selfDestruction)
+		if (selfDestructionActivated)
 		{
 			timeLeft -= Time.deltaTime;
 
 			if (timeLeft <= 0)
 			{
-				if (powerUp)
+				if (hasPowerUp)
 					DropPowerUp();
 				Destroy(gameObject);
 			}
@@ -104,7 +103,7 @@ public class EnemyController : MonoBehaviour {
 		}
 
 		//Has the turrets been reloaded now and the plane is in camera area? If yes -> shoot
-		if (readyToShoot && inPlay)
+		if (readyToShoot && inPlayArea)
 		{
 			GameObject newBullet = Instantiate(bullet);
 			SetupBullet(newBullet);
@@ -166,7 +165,7 @@ public class EnemyController : MonoBehaviour {
 			other.gameObject.GetComponent<Animator>().SetBool("explosion", true);
 			other.enabled = false;
 			other.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-			other.gameObject.GetComponent<BulletController>().activateSelfDestruction();
+			other.gameObject.GetComponent<BulletController>().ActivateSelfDestruction();
 
 			HP -= hitDamage;
 			if (HP <= 0)
@@ -174,7 +173,7 @@ public class EnemyController : MonoBehaviour {
 				GetComponent<Animator>().SetBool("dead", true);
 				GetComponent<Collider2D>().enabled = false;
 
-				selfDestruction = true;
+				selfDestructionActivated = true;
 
 				player.GetComponent<PlayerController>().IncreaseSuperPower();
 			}
@@ -193,7 +192,7 @@ public class EnemyController : MonoBehaviour {
 	//set the powerUp variable to true
 	public void setPowerUp(string powerItem)
 	{
-		powerUp = true;
+		hasPowerUp = true;
 		powerUpItem = powerItem;
 	}
 
