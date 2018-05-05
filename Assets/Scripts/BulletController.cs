@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BulletController : MonoBehaviour {
-
-	private OutOfBounds ofb;
-
+public class BulletController : MonoBehaviour
+{
 	[SerializeField]
 	private float timeToLive;
 
+	private OutOfBounds ofb;
 	private bool selfDestructionActivated;
 	private float timeLeft;
 

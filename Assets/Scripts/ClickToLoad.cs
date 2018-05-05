@@ -3,8 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class ClickToLoad : MonoBehaviour {
-
+public class ClickToLoad : MonoBehaviour
+{
 	[SerializeField] private Slider		loadingBar;
 	[SerializeField] private Text		LoadingText;
 	[SerializeField] private GameObject	loadingImage;
@@ -39,7 +39,7 @@ public class ClickToLoad : MonoBehaviour {
 		SceneManager.LoadScene(0);
 	}
 
-	IEnumerator LoadLevelWithBar(int level)
+	private IEnumerator LoadLevelWithBar(int level)
 	{
 		async = SceneManager.LoadSceneAsync(level);
 		while (!async.isDone)

@@ -1226,14 +1226,14 @@ public class Level1Controller : MonoBehaviour {
 
 		if (list != null)
 		{
-			newEnemy.GetComponent<EnemyController>().setupSpline(list);
+			newEnemy.GetComponent<EnemyController>().SetupSpline(list);
 		}
 
 		//If enemy holds a power up, activate the PowerUpCircle child element and drop power up when destroyed by player or friendlies
 		if (!powerup.Equals("none"))
 		{
 			newEnemy.transform.Find("PowerUpCircle").gameObject.SetActive(true);
-			newEnemy.GetComponent<EnemyController>().setPowerUp(powerup);
+			newEnemy.GetComponent<EnemyController>().SetPowerUp(powerup);
 		}
 	}
 }

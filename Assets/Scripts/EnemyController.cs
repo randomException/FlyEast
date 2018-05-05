@@ -3,9 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class EnemyController : MonoBehaviour {
+public class EnemyController : MonoBehaviour
+{
+	public enum EnemyType
+	{
+		Basic,
+		Tough
+	}
 
-	[SerializeField] private string		type;                         //Tells which kind of enemy this is (basic, tougher)
+	[SerializeField] private EnemyType	type;                         //Tells which kind of enemy this is (basic, tougher)
 	[SerializeField] private float		reloadTime;
 	[SerializeField] private GameObject bullet;
 	[SerializeField] private float		bulletSpeed;
@@ -20,43 +26,36 @@ public class EnemyController : MonoBehaviour {
 	private bool hasPowerUp;
 	private string powerUpItem;
 
-	private bool readyToShoot;
-	private float reloadTimeRemaining;
-	
-	private float lifeTimeSeconds;
-
 	private OutOfBounds ofb;
-	private bool inPlayArea;
+	private bool inPlayArea = false;
+	private float lifeTimeSeconds = 0;
 
 	private Spline spline;
 	private bool hasSpline = false;
 
 	[SerializeField]
-	private float timeToLive;					// How long the bullet lies after self destruction set on
+	private float timeToLive;					// How long the bullet flies after self destruction set on
 	private float timeLeft;                     // How much time is left before destory
 	private bool selfDestructionActivated;      // Tells if enemy is going to disappear after certain time limit
+	private bool readyToShoot = true;
+	private float reloadTimeRemaining;
 
-	void Start () {
-		readyToShoot = true;
+	void Start ()
+	{
 		reloadTimeRemaining = reloadTime;
-		lifeTimeSeconds = 0;
-
+		timeLeft = timeToLive;
 		ofb = gameObject.AddComponent<OutOfBounds>();
-		inPlayArea = false;
 
 		if(hasSpline)
 			GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-
-		timeLeft = timeToLive;
 	}
-	
-	// Update is called once per frame
-	void Update () {
 
-		transform.Find("PowerUpCircle").transform.Rotate(new Vector3(0, 0, -200 * Time.deltaTime), Space.Self);
+	void Update ()
+	{
+		float dt = Time.deltaTime;
 
-		//pendant: replace by deltatime.
-		lifeTimeSeconds += Time.deltaTime;
+		transform.Find("PowerUpCircle").transform.Rotate(new Vector3(0, 0, -200 * dt), Space.Self);
+		lifeTimeSeconds += dt;
 		Shoot();
 
 		if (!inPlayArea)
@@ -78,8 +77,7 @@ public class EnemyController : MonoBehaviour {
 
 		if (selfDestructionActivated)
 		{
-			timeLeft -= Time.deltaTime;
-
+			timeLeft -= dt;
 			if (timeLeft <= 0)
 			{
 				if (hasPowerUp)
@@ -89,10 +87,8 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
-	//Function for shooting
-	void Shoot()
+	private void Shoot()
 	{
-		//Able to shoot == not reloading?
 		if (!readyToShoot)
 		{
 			reloadTimeRemaining -= Time.deltaTime;
@@ -103,24 +99,22 @@ public class EnemyController : MonoBehaviour {
 			}
 		}
 
-		//Has the turrets been reloaded now and the plane is in camera area? If yes -> shoot
+		// Shoot if enemy has reloaded and is in camera area
 		if (readyToShoot && inPlayArea)
 		{
 			GameObject newBullet = Instantiate(bullet);
 			SetupBullet(newBullet);
-
 			readyToShoot = false;
 		}
-
 	}
 
-	//Setup the position and velocity of the new bullet
-	void SetupBullet(GameObject aBullet)
+	// Setup the position and velocity of the new bullet
+	private void SetupBullet(GameObject newBullet)
 	{
-		if (type.Equals("Basic") || type.Equals("Tougher"))
+		if (type == EnemyType.Basic || type == EnemyType.Tough)
 		{
-			aBullet.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-			aBullet.SetActive(true);
+			newBullet.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+			newBullet.SetActive(true);
 
 			Vector2 toPlayer = player.transform.position - transform.position;
 			float x = toPlayer.x;
@@ -128,7 +122,7 @@ public class EnemyController : MonoBehaviour {
 			
 			if(x == 0 || y == 0)
 			{
-				aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
+				newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
 				return;
 			}
 
@@ -145,23 +139,15 @@ public class EnemyController : MonoBehaviour {
 			if (y < 0)
 				y_speed = -y_speed;
 
-			
-			aBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(x_speed, y_speed);
+			newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(x_speed, y_speed);
 		}
-
-		else
-		{
-			return;
-		}
-
 	}
 
-
-	//Collision handler
+	// Collision handler
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		//Enemy hits player's bullet
-		if (other.gameObject.tag == "PlayerBullet")
+		// Enemy hits player's bullet
+		if (other.gameObject.tag.Equals("PlayerBullet"))
 		{
 			other.gameObject.GetComponent<Animator>().SetBool("explosion", true);
 			other.enabled = false;
@@ -173,32 +159,26 @@ public class EnemyController : MonoBehaviour {
 			{
 				GetComponent<Animator>().SetBool("dead", true);
 				GetComponent<Collider2D>().enabled = false;
-
 				selfDestructionActivated = true;
-
 				player.GetComponent<PlayerController>().IncreaseSuperPower();
 			}
 		}
 	}
 
-
-	//Setup enemy's spline curv
-	public void setupSpline(List<Vector2> list)
+	public void SetupSpline(List<Vector2> list)
 	{
 		hasSpline = true;
 		spline = gameObject.AddComponent<Spline>();
 		spline.Setup(list);
 	}
 
-	//set the powerUp variable to true
-	public void setPowerUp(string powerItem)
+	public void SetPowerUp(string powerItem)
 	{
 		hasPowerUp = true;
 		powerUpItem = powerItem;
 	}
 
-	//drop a powerUp to dead location
-	void DropPowerUp()
+	private void DropPowerUp()
 	{
 		if (powerUpItem.Equals("health"))
 		{
