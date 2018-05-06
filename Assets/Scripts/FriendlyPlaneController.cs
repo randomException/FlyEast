@@ -3,47 +3,55 @@ using System.Collections;
 
 public class FriendlyPlaneController : MonoBehaviour {
 
-	public float speed;                     //Movement speed
-	public float reloadTime;                //Tells the time between bullets are fired
-	public string type;                     //Tells if friend will just move past the camera or stays with player ("fly" vs "stay")
-	private string pos;						//Telss if friend is below or on top of player ("top" vs "below") (when type == "stay")
-	public float HP;                        //Friend's health points
-	private int hitDamage;                  //How many HPs friend is going to lose when hitted by enemy planes or enemy bullets
+	public enum FriendlyType
+	{
+		Permanent,
+		Temporary
+	}
 
-	public GameObject bullet;               //Instance of enemies' bullets. Will be used to create new bullets 
-	public float bulletSpeed;               //Bullet movement speed
+	public enum FriendlyPosition
+	{
+		Top,
+		Bottom
+	}
 
-	private float reloadTimeRemaining;      //How much time is left before next shooting
-	private bool readyToShoot;              //Tells if friend is ready to shoot new bullets
+	[SerializeField] private GameObject	player;
+	[SerializeField] private float		speed;
+	[SerializeField] private float		reloadTime;
+	[SerializeField] private string		type;   //Tells if friend will just move past the camera or stays with player ("fly" vs "stay")
+	[SerializeField] private float		HP;
+	[SerializeField] private GameObject	bullet;
+	[SerializeField] private float		bulletSpeed;
+	private string pos;                         //Tells if friend is below or on top of player ("top" vs "below") (when type == "stay")
+	private int hitDamage;						//How many HPs friend is going to lose when hitted by enemy planes or enemy bullets
+
+	private float reloadTimeRemaining;
+	private bool readyToShoot;
 
 
-	private OutOfBounds ofb;                //'Out of bounds' class instance
-	private bool inPlay;                    //Tells if friend has entered game area (== camera area)
+	private OutOfBounds ofb;
+	private bool inPlayArea;
 
-	public GameObject player;               //Player gameobject
+	private bool isInvisible;
+	private bool isBlinking;
+	private float blinkRate;
+	private float timeLeftForNextBlink;
+	private int blinkTimes;
+	private int blinkCount;
 
-	private bool isInvisible;               //Tells if friendly is "invisible"
-	private bool blinking;                  //Tells if friendly got damage and is blinking now
-	private float blinkRate;                //How often friendly blinks
-	private float timeLeft;                 //When the friendly is going to flash next time
-	private int blinkTimes;                 //How many times friendly blinks
-	private int blinkCount;                 //Current blink count
-
-	// Use this for initialization
 	void Start () {
 		ofb = gameObject.AddComponent<OutOfBounds>();
-		inPlay = false;
+		inPlayArea = false;
 		hitDamage = -20;
 
 		isInvisible = false;
-		blinking = false;
+		isBlinking = false;
 		blinkRate = 0.2f;
-		timeLeft = blinkRate;
+		timeLeftForNextBlink = blinkRate;
 		blinkTimes = 3;
 		blinkCount = 0;
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 
 		if (type.Equals("stay"))
@@ -55,21 +63,21 @@ public class FriendlyPlaneController : MonoBehaviour {
 
 		Shoot();
 
-		if (!inPlay)
+		if (!inPlayArea)
 		{
 			if (ofb.IsInCameraArea(transform.position.x, transform.position.y))
-				inPlay = true;
+				inPlayArea = true;
 		}
 
 		//friends who statys next to player can't be out of bounds
-		if (inPlay && type.Equals("fly"))
+		if (inPlayArea && type.Equals("fly"))
 		{
 			if (!ofb.IsInPlayArea(transform.position.x, transform.position.y))
 				Destroy(gameObject);
 		}
 
 		//Player blinking
-		if (blinking)
+		if (isBlinking)
 		{
 			// if there is more blinks to come
 			if (blinkCount < blinkTimes)
@@ -77,8 +85,8 @@ public class FriendlyPlaneController : MonoBehaviour {
 				// if player is visible
 				if (!isInvisible)
 				{
-					timeLeft -= Time.deltaTime;
-					if (timeLeft <= 0)
+					timeLeftForNextBlink -= Time.deltaTime;
+					if (timeLeftForNextBlink <= 0)
 					{
 						gameObject.GetComponent<SpriteRenderer>().color = new Color(
 							gameObject.GetComponent<SpriteRenderer>().color.r,
@@ -86,14 +94,14 @@ public class FriendlyPlaneController : MonoBehaviour {
 							gameObject.GetComponent<SpriteRenderer>().color.b, 0.2f);
 
 						isInvisible = true;
-						timeLeft = blinkRate;
+						timeLeftForNextBlink = blinkRate;
 					}
 				}
 				// if player is invisible
 				else
 				{
-					timeLeft -= Time.deltaTime;
-					if (timeLeft <= 0)
+					timeLeftForNextBlink -= Time.deltaTime;
+					if (timeLeftForNextBlink <= 0)
 					{
 						gameObject.GetComponent<SpriteRenderer>().color = new Color(
 							gameObject.GetComponent<SpriteRenderer>().color.r,
@@ -101,7 +109,7 @@ public class FriendlyPlaneController : MonoBehaviour {
 							gameObject.GetComponent<SpriteRenderer>().color.b, 1);
 
 						isInvisible = false;
-						timeLeft = blinkRate;
+						timeLeftForNextBlink = blinkRate;
 
 						blinkCount++;
 					}
@@ -110,7 +118,7 @@ public class FriendlyPlaneController : MonoBehaviour {
 			// if all blinks has been made
 			else
 			{
-				blinking = false;
+				isBlinking = false;
 			}
 		}
 	}
@@ -130,7 +138,7 @@ public class FriendlyPlaneController : MonoBehaviour {
 		}
 
 		//Has the turrets been reloaded now and the plane is in camera area? If yes -> shoot
-		if (readyToShoot && inPlay)
+		if (readyToShoot && inPlayArea)
 		{
 			for (int i = 1; i <= 2; i++)
 			{
@@ -191,8 +199,8 @@ public class FriendlyPlaneController : MonoBehaviour {
 		//Only friend that stays with player can die
 		if (type.Equals("stay"))
 		{
-			blinking = true;
-			timeLeft = blinkRate;
+			isBlinking = true;
+			timeLeftForNextBlink = blinkRate;
 			blinkCount = 0;
 
 			if (HP <= 0)

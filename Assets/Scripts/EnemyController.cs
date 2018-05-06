@@ -16,15 +16,15 @@ public class EnemyController : MonoBehaviour
 	[SerializeField] private GameObject bullet;
 	[SerializeField] private float		bulletSpeed;
 	[SerializeField] private float		HP;
-	[SerializeField] private float		hitDamage;                    //How much enemy loses HP when it hits with player's bullet
+	[SerializeField] private float		hitDamageFromPlayer;          //How much enemy loses HP when it hits with player's bullet
 
 	[SerializeField] private GameObject player;
-	[SerializeField] private GameObject HealthPU;
-	[SerializeField] private GameObject BackupPU;
-	[SerializeField] private GameObject BulletPU;
+	[SerializeField] private GameObject HealthPowerUpPrefab;
+	[SerializeField] private GameObject ReinforcementsPowerUpPrefab;
+	[SerializeField] private GameObject FirePowerPowerUpPrefab;
 
 	private bool hasPowerUp;
-	private string powerUpItem;
+	private PowerUp.PowerUpType powerUpItem;
 
 	private OutOfBounds ofb;
 	private bool inPlayArea = false;
@@ -34,9 +34,9 @@ public class EnemyController : MonoBehaviour
 	private bool hasSpline = false;
 
 	[SerializeField]
-	private float timeToLive;					// How long the bullet flies after self destruction set on
-	private float timeLeft;                     // How much time is left before destory
-	private bool selfDestructionActivated;      // Tells if enemy is going to disappear after certain time limit
+	private float timeToLive;
+	private float timeLeft;
+	private bool selfDestructionActivated;
 	private bool readyToShoot = true;
 	private float reloadTimeRemaining;
 
@@ -154,7 +154,7 @@ public class EnemyController : MonoBehaviour
 			other.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 			other.gameObject.GetComponent<BulletController>().ActivateSelfDestruction();
 
-			HP -= hitDamage;
+			HP -= hitDamageFromPlayer;
 			if (HP <= 0)
 			{
 				GetComponent<Animator>().SetBool("dead", true);
@@ -172,29 +172,29 @@ public class EnemyController : MonoBehaviour
 		spline.Setup(list);
 	}
 
-	public void SetPowerUp(string powerItem)
+	public void SetPowerUp(PowerUp.PowerUpType powerUp)
 	{
 		hasPowerUp = true;
-		powerUpItem = powerItem;
+		powerUpItem = powerUp;
 	}
 
 	private void DropPowerUp()
 	{
-		if (powerUpItem.Equals("health"))
+		if (powerUpItem == PowerUp.PowerUpType.Health)
 		{
-			GameObject newPowerUp = Instantiate(HealthPU);
+			GameObject newPowerUp = Instantiate(HealthPowerUpPrefab);
 			newPowerUp.SetActive(true);
 			newPowerUp.transform.position = transform.position;
 		}
-		else if (powerUpItem.Equals("friend"))
+		else if (powerUpItem == PowerUp.PowerUpType.Reinforcements)
 		{
-			GameObject newPowerUp = Instantiate(BackupPU);
+			GameObject newPowerUp = Instantiate(ReinforcementsPowerUpPrefab);
 			newPowerUp.SetActive(true);
 			newPowerUp.transform.position = transform.position;
 		}
-		else if (powerUpItem.Equals("bullet"))
+		else if (powerUpItem == PowerUp.PowerUpType.FirePower)
 		{
-			GameObject newPowerUp = Instantiate(BulletPU);
+			GameObject newPowerUp = Instantiate(FirePowerPowerUpPrefab);
 			newPowerUp.SetActive(true);
 			newPowerUp.transform.position = transform.position;
 		}
