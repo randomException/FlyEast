@@ -4,30 +4,28 @@ using UnityEngine.UI;
 
 public class PauseGame : MonoBehaviour {
 
-	private bool pause;
+	private bool isPaused = false;
 
-	public Image pauseButton;
+	[SerializeField] private Image backButton;
+	[SerializeField] private Image pauseButton;
+	[SerializeField] private Sprite pausedPauseImage;
+	[SerializeField] private Sprite pausedBackImage;
+
 	private Sprite originalPauseImage;
-	public Sprite pausedPauseImage;
-
-	public Image backButton;
 	private Sprite originalBackImage;
-	public Sprite pausedBackImage;
 
 	// Use this for initialization
-	void Start () {
-		pause = false;
-
+	void Start ()
+	{
 		originalPauseImage = pauseButton.sprite;
 		originalBackImage = backButton.sprite;
 	}
 	
 
-	public void Pause()
+	public void SwitchPauseState()
 	{
-		pause = !pause;
-
-		if (pause)
+		isPaused = !isPaused;
+		if (isPaused)
 		{
 			Time.timeScale = 0.0f;
 			pauseButton.sprite = pausedPauseImage;

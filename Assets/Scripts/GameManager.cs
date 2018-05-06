@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviour {
         private set { difficultyDamageTakenMultiplier = value; }
     }
 
-    private const float easyMultiplier = 0.75f;
+    private const float easyMultiplier = 0.7f;
     private const float normalMultiplier = 1.0f;
-    private const float hardMultiplier = 1.25f;
+    private const float hardMultiplier = 1.3f;
 
     // Game Instance Singleton
     public static GameManager Instance

@@ -222,7 +222,7 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			transform.Find("ClickSound").GetComponent<AudioSource>().Play();
-			canvas.GetComponent<PauseGame>().Pause();
+			canvas.GetComponent<PauseGame>().SwitchPauseState();
 		}
 
 
@@ -249,7 +249,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//Function for shooting
-	void Shoot()
+	private void Shoot()
 	{
 		//Able to shoot == not reloading?
 		if (!readyToShoot)
@@ -278,7 +278,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//Setup the position and velocity of the new bullet
-	void SetupBullet(GameObject aBullet, float location_multiplier /*string turret*/)
+	private void SetupBullet(GameObject aBullet, float location_multiplier /*string turret*/)
 	{
 		float height = GetComponent<Renderer>().bounds.size.y;
 
@@ -293,7 +293,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	//Ends the game with notifications
-	void gameOver()
+	private void GameOver()
 	{
 		animator.SetBool("playerDies", true);
 		isDead = true;
@@ -313,7 +313,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//Activated when player wins
-	void WinTheGame()
+	private void WinTheGame()
 	{
 		//Player can't win if his dead
 		if (!IsDead())
@@ -325,21 +325,20 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//When died or won the game, wait 3s before restarting the level
-	IEnumerator WaitForRestart()
+	private IEnumerator WaitForRestart()
 	{
 		yield return new WaitForSeconds(3);
 		SceneManager.LoadScene("MainMenu");
 	}
 
 	//Wait for t seconds and then destory 'gameObject'
-	IEnumerator DestroyObjectAfterWait(float t, GameObject gameObject)
+	private IEnumerator DestroyObjectAfterWait(float t, GameObject gameObject)
 	{
 		yield return new WaitForSeconds(t);
 
 		Destroy(gameObject);
 	}
 
-	//Collision handler
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		//Player hits enemy bullets
@@ -369,12 +368,12 @@ public class PlayerController : MonoBehaviour {
 
 			if (!topFriend)
 			{
-				CreateNewFriend(new Vector2(transform.position.x - 1, transform.position.y - 2.5f), true, "top");
+				CreateNewFriend(new Vector2(transform.position.x - 1, transform.position.y - 2.5f), true, FriendlyPlaneController.FriendlyPosition.Top);
 				topFriend = true;
 			}
 			if (!belowFriend)
 			{
-				CreateNewFriend(new Vector2(transform.position.x - 1, transform.position.y + 2.5f), true, "below");
+				CreateNewFriend(new Vector2(transform.position.x - 1, transform.position.y + 2.5f), true, FriendlyPlaneController.FriendlyPosition.Bottom);
 				belowFriend = true;
 			}
 			
@@ -391,16 +390,16 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//The player will now know that he has not a friendly plane on following position
-	public void setFriendlyAsFalse(string pos)
+	public void SetFriendlyAsDied(FriendlyPlaneController.FriendlyPosition pos)
 	{
-		if (pos.Equals("top"))
+		if (pos == FriendlyPlaneController.FriendlyPosition.Top)
 			topFriend = false;
 		else
 			belowFriend = false;
 	}
 
 	//Increase or decrease player's health points
-	void ChangeHealth(float amount)
+	private void ChangeHealth(float amount)
 	{
 		if (amount < 0)
 		{
@@ -416,7 +415,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			GetComponent<Collider2D>().enabled = false;
 			transform.Find("DeathSound").GetComponent<AudioSource>().Play();
-			gameOver();
+			GameOver();
 		}
 		else if (HP > maxHP)
 			HP = maxHP;
@@ -455,7 +454,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//Activate the super power
-	void UseSuperPower()
+	private void UseSuperPower()
 	{
 		superPower = 0;
 		superPowerReady = false;
@@ -475,7 +474,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//create new friendly planes
-	void CreateNewFriend(Vector2 pos, bool child, string posToPlayer = "")
+	private void CreateNewFriend(Vector2 pos, bool child,
+		FriendlyPlaneController.FriendlyPosition posToPlayer = FriendlyPlaneController.FriendlyPosition.Top)
 	{
 		GameObject newFriendly = Instantiate(friendlyPlane);
 		newFriendly.transform.position = pos;
@@ -484,8 +484,8 @@ public class PlayerController : MonoBehaviour {
 		if (child)
 		{
 			newFriendly.transform.parent = transform;
-			newFriendly.GetComponent<FriendlyPlaneController>().setType("stay");
-			newFriendly.GetComponent<FriendlyPlaneController>().setPosition(posToPlayer);
+			newFriendly.GetComponent<FriendlyPlaneController>().ChangeType(FriendlyPlaneController.FriendlyType.Permanent);
+			newFriendly.GetComponent<FriendlyPlaneController>().SetPosition(posToPlayer);
 			newFriendly.GetComponent<SpriteRenderer>().sprite = friendlySprite;
 		}
 	}
